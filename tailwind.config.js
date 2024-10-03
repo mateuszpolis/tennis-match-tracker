@@ -5,10 +5,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        custom: "0px 0px 9px 0px rgba(61,52,139,0.6)",
+      },
       colors: {
         primary: "#3d348b",
         secondary: "#5FAD41",
-        accent: "#BFAE48",
+        accent: "#C287E8",
         background: "#faf9f9",
         text: "#0000000",
       },
