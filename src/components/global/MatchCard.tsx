@@ -24,7 +24,7 @@ function MatchCard({ match }: Props) {
           </span>
         </p>
         <p className="text-gray-500 text-sm">
-          Date: {match.date.toLocaleDateString()}
+          Date: {match.date.toLocaleDateString("pl-PL")}
         </p>
       </div>
 

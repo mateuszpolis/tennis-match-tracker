@@ -15,6 +15,7 @@ interface TennisGroundContextType {
   deleteGround: (id: number) => Promise<void>;
   fetchGrounds: () => Promise<TennisGround[]>;
   getGround: (id: number) => Promise<TennisGround>;
+  getGroundsByName: (name: string) => Promise<TennisGround[]>;
 }
 
 const TennisGroundContext = createContext<TennisGroundContextType | undefined>(
@@ -49,10 +50,20 @@ const TennisGroundProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const getGround = async (id: number): Promise<TennisGround> => {
-    const config = await withAuth({
+    const config = {
       method: "get",
       url: `${apiUrl}/api/grounds/${id}`,
-    });
+    };
+
+    const response = await axios(config);
+    return response.data;
+  };
+
+  const getGroundsByName = async (name: string): Promise<TennisGround[]> => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/grounds/name/${name}`,
+    };
 
     const response = await axios(config);
     return response.data;
@@ -81,10 +92,10 @@ const TennisGroundProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchGrounds = async (): Promise<TennisGround[]> => {
-    const config = await withAuth({
+    const config = {
       method: "get",
       url: `${apiUrl}/api/grounds`,
-    });
+    };
 
     const response = await axios(config);
     return response.data;
@@ -95,6 +106,7 @@ const TennisGroundProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         createGround,
         getGround,
+        getGroundsByName,
         editGround,
         deleteGround,
         fetchGrounds,

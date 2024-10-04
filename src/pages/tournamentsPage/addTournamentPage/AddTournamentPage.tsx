@@ -1,15 +1,19 @@
 import React from "react";
-import TournamentForm from "../../../forms/TournamentForm";
 import { TournamentCreationAttributes } from "../../../models/Tournament";
+import TournamentForm from "../../../forms/TournamentForm";
+import { useTournament } from "../../../context/TournamentContext";
 
 function AddTournamentPage() {
-  const submitForm = (data: TournamentCreationAttributes): Promise<any> => {
-    return new Promise((resolve) => {
-      console.log("Mock submitForm called with:", data);
-      setTimeout(() => {
-        resolve({ message: "Tournament created successfully" });
-      }, 1000);
-    });
+  const { createTournament } = useTournament();
+
+  const submitForm = async (
+    data: TournamentCreationAttributes
+  ): Promise<any> => {
+    try {
+      await createTournament(data);
+    } catch (e: any) {
+      throw e;
+    }
   };
 
   return (

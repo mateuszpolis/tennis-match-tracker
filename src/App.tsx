@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import muiTheme from "./muiTheme";
 import CombinedProvider from "./context/CombinedProvider";
-import { Cookies } from "react-cookie-consent";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
 import ForgotPasswordPage from "./pages/forgotPasswordPage/ForgotPasswordPage";
@@ -13,12 +12,13 @@ import ConfirmEmailPage from "./pages/confirmEmailPage/ConfirmEmailPage";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/global/Footer";
 import NavBar from "./components/global/NavBar";
-import TournamentPage from "./pages/tournamentPage/TournamentPage";
+import TournamentPage from "./pages/tournamentsPage/tournamentPage/TournamentPage";
 import "react-toastify/dist/ReactToastify.css";
 import MatchPage from "./pages/matchPage/MatchPage";
 import PlayerPage from "./pages/playerPage/PlayerPage";
 import TournamentsPage from "./pages/tournamentsPage/TournamentsPage";
 import GroundsPage from "./pages/groundsPage/GroundsPage";
+import Cookies from "./components/global/Cookies";
 
 function App() {
   return (

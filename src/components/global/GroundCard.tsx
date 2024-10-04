@@ -8,8 +8,6 @@ type Props = {
 };
 
 function GroundCard({ ground }: Props) {
-  console.log(ground);
-
   return (
     <Link
       to={`/tennis-grounds/${ground.id}`}
@@ -28,7 +26,7 @@ function GroundCard({ ground }: Props) {
           <CalendarToday />
           <p>
             Construction date:{" "}
-            {new Date(ground.constructionDate).toLocaleDateString("pl")}
+            {new Date(ground.constructionDate).toLocaleDateString("pl-PL")}
           </p>
         </div>
         <div

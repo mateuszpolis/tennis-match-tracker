@@ -39,7 +39,7 @@ function GroundPage() {
       <p className="mb-2">{ground.description}</p>
       <p className="mb-2">
         <strong>Construction Date:</strong>{" "}
-        {new Date(ground.constructionDate).toLocaleDateString("pl")}
+        {new Date(ground.constructionDate).toLocaleDateString("pl-PL")}
       </p>
       <p className="mb-2">
         <strong>Location:</strong> {ground.city}, {ground.country}

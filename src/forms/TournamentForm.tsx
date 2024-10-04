@@ -1,21 +1,18 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, MenuItem, Grid } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TournamentCreationAttributes } from "../models/Tournament";
 import { Surface } from "../models/TennisGround";
+import GroundSelect from "../components/global/forms/GroundSelect";
 
 interface TournamentFormProps {
-  tournament?: TournamentCreationAttributes; // Optional prop to pass tournament for editing
-  onSubmit: (data: TournamentCreationAttributes) => any; // Function to handle form submission
+  tournament?: TournamentCreationAttributes;
+  onSubmit: (data: TournamentCreationAttributes) => any;
 }
 
-const TournamentForm: React.FC<TournamentFormProps> = ({
-  tournament,
-  onSubmit,
-}) => {
+function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
   const {
     handleSubmit,
     control,
@@ -23,12 +20,10 @@ const TournamentForm: React.FC<TournamentFormProps> = ({
   } = useForm<TournamentCreationAttributes>({
     defaultValues: {
       name: tournament?.name || "",
-      surface: tournament?.surface || Surface.CLAY,
-      tennisGroundId: tournament?.tennisGroundId || 1,
+      tennisGroundId: tournament?.tennisGroundId || undefined,
     },
   });
 
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleFormSubmit = async (data: TournamentCreationAttributes) => {
@@ -39,14 +34,14 @@ const TournamentForm: React.FC<TournamentFormProps> = ({
     });
 
     try {
-      await onSubmit(data); // Call the onSubmit function passed via props
+      await onSubmit(data);
       toast.update(toastId, {
         render: "Tournament submitted successfully!",
         type: "success",
         isLoading: false,
         autoClose: 3000,
       });
-      navigate("/tournaments"); // Redirect after successful submission
+      navigate("/tournaments");
     } catch (error: any) {
       console.error("Tournament submission failed", error);
       toast.update(toastId, {
@@ -82,49 +77,7 @@ const TournamentForm: React.FC<TournamentFormProps> = ({
         </Grid>
 
         <Grid item xs={12}>
-          <Controller
-            name="surface"
-            control={control}
-            rules={{ required: "Surface type is required" }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Surface"
-                fullWidth
-                error={!!errors.surface}
-                helperText={
-                  errors.surface ? String(errors.surface.message) : ""
-                }
-              >
-                <MenuItem value={Surface.CLAY}>Clay</MenuItem>
-                <MenuItem value={Surface.GRASS}>Grass</MenuItem>
-                <MenuItem value={Surface.HARD}>Hard</MenuItem>
-              </TextField>
-            )}
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <Controller
-            name="tennisGroundId"
-            control={control}
-            rules={{ required: "Ground ID is required" }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Tennis Ground ID"
-                type="number"
-                fullWidth
-                error={!!errors.tennisGroundId}
-                helperText={
-                  errors.tennisGroundId
-                    ? String(errors.tennisGroundId.message)
-                    : ""
-                }
-              />
-            )}
-          />
+          <GroundSelect control={control} errors={errors} />
         </Grid>
 
         <Grid item xs={12}>
@@ -135,6 +88,6 @@ const TournamentForm: React.FC<TournamentFormProps> = ({
       </Grid>
     </form>
   );
-};
+}
 
 export default TournamentForm;

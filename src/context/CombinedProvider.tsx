@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import AuthProvider from "./AuthContext";
 import TennisGroundProvider from "./TennisGroundContext";
+import TournamentProvider from "./TournamentContext";
 
 interface CombinedProviderProps {
   children: ReactNode;
@@ -9,7 +10,9 @@ interface CombinedProviderProps {
 const CombinedProvider: React.FC<CombinedProviderProps> = ({ children }) => {
   return (
     <AuthProvider>
-      <TennisGroundProvider>{children}</TennisGroundProvider>
+      <TennisGroundProvider>
+        <TournamentProvider>{children}</TournamentProvider>
+      </TennisGroundProvider>
     </AuthProvider>
   );
 };
