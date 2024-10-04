@@ -16,8 +16,9 @@ import NavBar from "./components/global/NavBar";
 import TournamentPage from "./pages/tournamentPage/TournamentPage";
 import "react-toastify/dist/ReactToastify.css";
 import MatchPage from "./pages/matchPage/MatchPage";
-import GroundPage from "./pages/groundPage/GroundPage";
 import PlayerPage from "./pages/playerPage/PlayerPage";
+import TournamentsPage from "./pages/tournamentsPage/TournamentsPage";
+import GroundsPage from "./pages/groundsPage/GroundsPage";
 
 function App() {
   return (
@@ -41,8 +42,9 @@ function App() {
             />
             <Route path="/tournament/:id" element={<TournamentPage />} />
             <Route path="/match/:id" element={<MatchPage />} />
-            <Route path="/ground/:id" element={<GroundPage />} />
             <Route path="/player/:id" element={<PlayerPage />} />
+            <Route path="/tournaments/*" element={<TournamentsPage />} />
+            <Route path="/tennis-grounds/*" element={<GroundsPage />} />
           </Routes>
         </div>
         <Footer />

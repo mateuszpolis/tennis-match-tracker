@@ -15,7 +15,7 @@ function TournamentCard({ tournament }: Props) {
       className="bg-white p-5 transition-all shadow-md flex flex-col justify-between hover:shadow-custom"
     >
       <div className="flex items-center space-x-2 h-10">
-        {tournament.startDate <= new Date() &&
+        {/* {tournament.startDate <= new Date() &&
         tournament.endDate >= new Date() ? (
           <div>
             <span>Live</span>
@@ -26,7 +26,7 @@ function TournamentCard({ tournament }: Props) {
             <span>See results</span>
             <SportsTennis />
           </div>
-        )}
+        )} */}
       </div>
       <div>
         <h2 className="text-xl font-bold mb-2">{tournament.name}</h2>
@@ -39,8 +39,8 @@ function TournamentCard({ tournament }: Props) {
         <div className="flex items-center text-gray-600">
           <CalendarToday />
           <p>
-            {tournament.startDate.toLocaleDateString()} -{" "}
-            {tournament.endDate.toLocaleDateString()}
+            {/* {tournament.startDate.toLocaleDateString()} -{" "}
+            {tournament.endDate.toLocaleDateString()} */}
           </p>
         </div>
         <div

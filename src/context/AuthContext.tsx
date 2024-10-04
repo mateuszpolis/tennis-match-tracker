@@ -34,7 +34,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;

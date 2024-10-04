@@ -21,7 +21,7 @@ function NavBar() {
 
   return (
     <div
-      className={`sticky w-full top-0 py-3 z-20 max-h-[136px] overflow-visible flex flex-col items-center p-4 ml-auto mr-auto transition-all ${
+      className={`sticky w-full top-0 py-3 z-20 max-h-[136px] overflow-visible flex group flex-col items-center p-4 ml-auto mr-auto transition-all ${
         isScrolled ? "shadow-md bg-white" : "bg-background"
       }`}
     >
@@ -36,6 +36,20 @@ function NavBar() {
             >
               <Home sx={{ fontSize: width <= 768 ? 25 : 40 }} />
             </IconButton>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Link
+              to="/tournaments"
+              className="hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
+            >
+              Tournaments
+            </Link>
+            <Link
+              to="/tennis-grounds"
+              className="hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
+            >
+              Tennis Grounds
+            </Link>
           </div>
           <div>
             {isAuthenticated ? (

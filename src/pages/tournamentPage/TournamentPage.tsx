@@ -10,8 +10,8 @@ const tournament = {
   id: 2,
   name: "Wimbledon",
   surface: "GRASS",
-  startDate: new Date(2024, 6, 1),
-  endDate: new Date(2024, 6, 14),
+  // startDate: new Date(2024, 6, 1),
+  // endDate: new Date(2024, 6, 14),
   ground: {
     id: 2,
     name: "All England Lawn Tennis and Croquet Club",
@@ -100,8 +100,8 @@ function TournamentPage() {
         <p className="text-gray-600">
           Dates:{" "}
           <span className="font-semibold">
-            {tournament.startDate.toLocaleDateString()} -{" "}
-            {tournament.endDate.toLocaleDateString()}
+            {/* {tournament.startDate.toLocaleDateString()} -{" "}
+            {tournament.endDate.toLocaleDateString()} */}
           </span>
         </p>
         <p className="text-gray-600">{tournament.ground.description}</p>
