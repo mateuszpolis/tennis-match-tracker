@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Tournament } from "../../../models/Tournament";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import MatchCard from "../../../components/global/MatchCard";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { useTournament } from "../../../context/TournamentContext";
 import { toast } from "react-toastify";
 import TournamentEditionCard from "../../../components/global/TournamentEditionCard";
 import { CalendarToday } from "@mui/icons-material";
+import AddTournamentEditionPage from "./addTournamentEditionPage/AddTournamentEditionPage";
+import { Button } from "@mui/material";
+import TournamentEditionPage from "./tournamentEditionPage/TournamentEditionPage";
+import RecentTournamentEditions from "./RecentTournamentEditions";
 
 function TournamentPage() {
   const { id } = useParams();
@@ -35,8 +38,19 @@ function TournamentPage() {
 
   return (
     <div className="p-8">
-      <div className="bg-white p-6 shadow-md space-y-3">
-        <h1 className="text-4xl font-bold mb-4">{tournament.name}</h1>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h1 className="text-4xl font-bold mb-4">{tournament.name}</h1>
+          <Button
+            variant="outlined"
+            color="success"
+            onClick={() => {
+              navigate(`create`);
+            }}
+          >
+            Create new edition
+          </Button>
+        </div>
         <p className="text-lg text-gray-700 mb-2">
           {tournament.ground.city}, {tournament.ground.country}
         </p>
@@ -59,29 +73,20 @@ function TournamentPage() {
         </div>
         <div className="text-gray-600">{tournament.ground.description}</div>
       </div>
-
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-2 text-primary">Ground</h2>
-        <Link
-          className="text-gray-600 underline"
-          to={`/tennis-grounds/${tournament.ground.id}`}
-        >
-          <span className="font-semibold">{tournament.ground.name}</span>
-        </Link>
-      </div>
-      <div className="mt-8">
-        <h2 className="text-3xl font-bold mb-4 text-primary">
-          Recent Editions
-        </h2>
-        <div className="grid grid-cols-1 gap-4">
-          {tournament.editions?.map((edition) => (
-            <TournamentEditionCard
-              tournamentEdition={edition}
-              key={edition.year}
-            />
-          ))}
-        </div>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<RecentTournamentEditions tournament={tournament} />}
+        />
+        <Route
+          path="/edition/:year"
+          element={<TournamentEditionPage tournamentId={tournament.id} />}
+        />
+        <Route
+          path="create"
+          element={<AddTournamentEditionPage tournamentId={tournament.id} />}
+        />
+      </Routes>
     </div>
   );
 }

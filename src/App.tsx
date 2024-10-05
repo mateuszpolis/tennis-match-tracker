@@ -39,8 +39,7 @@ function App() {
             <Route
               path="/confirm-email/:token"
               element={<ConfirmEmailPage />}
-            />
-            <Route path="/tournament/:id" element={<TournamentPage />} />
+            />            
             <Route path="/match/:id" element={<MatchPage />} />
             <Route path="/player/:id" element={<PlayerPage />} />
             <Route path="/tournaments/*" element={<TournamentsPage />} />

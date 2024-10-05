@@ -149,7 +149,7 @@ function MatchPage() {
       <div>
         <div>
           {match.tournament ? (
-            <Link to={`/tournament/${match.tournament.id}`}>
+            <Link to={`/tournaments/${match.tournament.id}`}>
               <p className="font-semibold">
                 Tournament: {match.tournament.name}
               </p>

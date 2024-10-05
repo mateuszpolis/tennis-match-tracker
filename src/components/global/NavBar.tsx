@@ -21,8 +21,8 @@ function NavBar() {
 
   return (
     <div
-      className={`sticky w-full top-0 py-3 z-20 max-h-[136px] overflow-visible flex group flex-col items-center p-4 ml-auto mr-auto transition-all ${
-        isScrolled ? "shadow-md bg-white" : "bg-background"
+      className={`sticky w-full top-0 py-3 z-20 max-h-[136px] overflow-visible flex group backdrop-blur-md flex-col items-center p-4 ml-auto mr-auto transition-all ${
+        isScrolled ? "shadow-md bg-transparent" : "bg-background"
       }`}
     >
       <div className="max-w-screen-2xl w-full">

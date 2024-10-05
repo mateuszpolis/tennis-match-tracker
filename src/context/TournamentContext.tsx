@@ -2,7 +2,12 @@ import React, { createContext, useContext, ReactNode } from "react";
 import axios from "axios";
 import { Tournament, TournamentCreationAttributes } from "../models/Tournament";
 import { withAuth } from "../middleware/withAuth";
-import { TournamentEdition } from "../models/TournamentEdition";
+import {
+  TournamentEdition,
+  TournamentEditionCreationAttributes,
+} from "../models/TournamentEdition";
+import { Surface } from "../models/TennisGround";
+import { body, param } from "express-validator";
 
 interface TournamentContextType {
   createTournament: (data: TournamentCreationAttributes) => Promise<void>;
@@ -13,14 +18,26 @@ interface TournamentContextType {
   deleteTournament: (id: number) => Promise<void>;
   fetchTournaments: (filters?: any) => Promise<Tournament[]>;
   getTournament: (id: number) => Promise<Tournament>;
-  createTournamentEdition: (data: TournamentEdition) => Promise<void>;
+  createTournamentEdition: (
+    data: TournamentEditionCreationAttributes
+  ) => Promise<void>;
   editTournamentEdition: (
     year: number,
     tournamentId: number,
     data: Partial<TournamentEdition>
   ) => Promise<void>;
-  getTournamentEditions: (filters?: any) => Promise<TournamentEdition[]>;
-  getTournamentEdition: (id: number) => Promise<TournamentEdition>;
+  getTournamentEditions: (filters?: {
+    name?: string;
+    groundId?: number;
+    surface?: Surface;
+    sortByStartDate?: "asc" | "desc";
+    sortByEndDate?: "asc" | "desc";
+    startDateAfter?: Date;
+  }) => Promise<TournamentEdition[]>;
+  getTournamentEdition: (
+    id: number,
+    year: number
+  ) => Promise<TournamentEdition>;
 }
 
 const TournamentContext = createContext<TournamentContextType | undefined>(
@@ -96,7 +113,7 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const createTournamentEdition = async (
-    data: TournamentEdition
+    data: TournamentEditionCreationAttributes
   ): Promise<void> => {
     const config = await withAuth({
       method: "post",
@@ -124,7 +141,7 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
   const getTournamentEditions = async (filters?: any): Promise<any> => {
     const config = {
       method: "get",
-      url: `${apiUrl}/api/tournaments/filter/edition`,
+      url: `${apiUrl}/api/tournaments/edition/filter`,
       params: filters,
     };
 
@@ -132,10 +149,17 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
     return response.data;
   };
 
-  const getTournamentEdition = async (id: number): Promise<any> => {
+  const getTournamentEdition = async (
+    id: number,
+    year: number
+  ): Promise<TournamentEdition> => {
     const config = {
       method: "get",
-      url: `${apiUrl}/api/tournaments/one/edition/${id}`,
+      url: `${apiUrl}/api/tournaments/edition/one`,
+      params: {
+        id,
+        year,
+      },
     };
 
     const response = await axios(config);

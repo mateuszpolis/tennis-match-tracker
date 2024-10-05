@@ -10,7 +10,7 @@ type Props = {
 function TournamentCard({ tournament }: Props) {
   return (
     <Link
-      to={`/tournament/${tournament.id}`}
+      to={`/tournaments/${tournament.id}`}
       key={tournament.id}
       className="bg-white p-5 transition-all shadow-md flex flex-col justify-between hover:shadow-custom"
     >
