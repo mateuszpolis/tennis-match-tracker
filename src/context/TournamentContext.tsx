@@ -7,7 +7,6 @@ import {
   TournamentEditionCreationAttributes,
 } from "../models/TournamentEdition";
 import { Surface } from "../models/TennisGround";
-import { body, param } from "express-validator";
 
 interface TournamentContextType {
   createTournament: (data: TournamentCreationAttributes) => Promise<void>;
@@ -38,6 +37,7 @@ interface TournamentContextType {
     id: number,
     year: number
   ) => Promise<TournamentEdition>;
+  signupForTournament: (tournamnetId: number, year: number) => Promise<any>;
 }
 
 const TournamentContext = createContext<TournamentContextType | undefined>(
@@ -166,6 +166,22 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
     return response.data;
   };
 
+  const signupForTournament = async (
+    tournamentId: number,
+    year: number
+  ): Promise<any> => {
+    const config = await withAuth({
+      method: "post",
+      url: `${apiUrl}/api/tournaments/edition/signup`,
+      data: {
+        tournamentId,
+        year,
+      },
+    });
+
+    await axios(config);
+  };
+
   return (
     <TournamentContext.Provider
       value={{
@@ -178,6 +194,7 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
         editTournamentEdition,
         getTournamentEditions,
         getTournamentEdition,
+        signupForTournament,
       }}
     >
       {children}

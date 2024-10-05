@@ -15,7 +15,7 @@ function GroundPage() {
     try {
       setGround(await getGround(Number(id!)));
     } catch (e: any) {
-      toast.error("Error loading tennis ground");
+      toast.error(e.response.data.message || "Error loading tennis ground");
     }
   };
 

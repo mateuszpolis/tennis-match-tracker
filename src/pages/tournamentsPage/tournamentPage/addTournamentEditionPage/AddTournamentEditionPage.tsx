@@ -11,6 +11,7 @@ type Props = {
 
 function AddTournamentEditionPage({ tournamentId }: Props) {
   const { createTournamentEdition } = useTournament();
+  const navigate = useNavigate();
 
   const submitForm = async (
     data: TournamentEditionCreationAttributes
@@ -22,16 +23,15 @@ function AddTournamentEditionPage({ tournamentId }: Props) {
     }
   };
 
-  const navigate = useNavigate();
   useEffect(() => {
     if (!tournamentId) {
       toast.error("No tournament selected.");
-      navigate("/tournaments");
+      navigate(`/tournaments/${tournamentId}`);
     }
   }, []);
 
   return (
-    <div>
+    <div className="mt-10">
       <TournamentEditionForm
         onSubmit={submitForm}
         tournamentId={tournamentId}

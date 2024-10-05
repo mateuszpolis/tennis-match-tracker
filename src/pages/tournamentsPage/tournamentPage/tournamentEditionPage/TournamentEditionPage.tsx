@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TournamentEdition } from "../../../../models/TournamentEdition";
 import { useTournament } from "../../../../context/TournamentContext";
 import { toast } from "react-toastify";
-import { CalendarToday, SportsTennis } from "@mui/icons-material";
+import { CalendarToday } from "@mui/icons-material";
+import { useAuth } from "../../../../context/AuthContext";
 
 type Props = {
   tournamentId: number;
@@ -14,7 +15,28 @@ function TournamentEditionPage({ tournamentId }: Props) {
   const [tournamentEdition, setTournamentEdition] =
     useState<TournamentEdition | null>(null);
 
-  const { getTournamentEdition } = useTournament();
+  const { getTournamentEdition, signupForTournament } = useTournament();
+
+  const signup = async () => {
+    const toastId = toast.loading("Signing up...");
+    try {
+      await signupForTournament(tournamentId, Number(year!));
+
+      toast.update(toastId, {
+        render: "Signed up successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (e: any) {
+      toast.update(toastId, {
+        render: e.response.data.message || "Failed to sign up",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
 
   const fetchEdition = async () => {
     try {
@@ -34,6 +56,8 @@ function TournamentEditionPage({ tournamentId }: Props) {
     fetchEdition();
   }, []);
 
+  const { user, isAuthenticated } = useAuth();
+
   if (!tournamentEdition) {
     return <div>Loading...</div>;
   }
@@ -52,8 +76,11 @@ function TournamentEditionPage({ tournamentId }: Props) {
             {tournamentEdition.editionName || ""}{" "}
             {tournamentEdition.tournament?.name} {tournamentEdition.year}
           </h2>
-          {isUpcomingEvent && signupPossible && (
-            <button className="p-4 bg-background text-primary rounded-md hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all">
+          {isUpcomingEvent && signupPossible && isAuthenticated && (
+            <button
+              onClick={signup}
+              className="p-4 bg-background text-primary rounded-md hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+            >
               Sign up for the event
             </button>
           )}

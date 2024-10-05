@@ -46,10 +46,9 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
         autoClose: 3000,
       });
       navigate("/tennis-grounds");
-    } catch (error: any) {
-      console.error("Submission failed", error);
+    } catch (e: any) {
       toast.update(toastId, {
-        render: error.message || "Error occurred",
+        render: e.response.data.message || "Error occurred",
         type: "error",
         isLoading: false,
         autoClose: 3000,

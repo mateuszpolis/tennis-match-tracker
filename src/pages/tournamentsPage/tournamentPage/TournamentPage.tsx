@@ -20,7 +20,7 @@ function TournamentPage() {
     try {
       setTournament(await getTournament(Number(id!)));
     } catch (e: any) {
-      toast.error("Failed to fetch tournament.");
+      toast.error(e.response.data.message || "Failed to fetch tournament.");
     }
   };
 

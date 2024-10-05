@@ -19,6 +19,7 @@ import PlayerPage from "./pages/playerPage/PlayerPage";
 import TournamentsPage from "./pages/tournamentsPage/TournamentsPage";
 import GroundsPage from "./pages/groundsPage/GroundsPage";
 import Cookies from "./components/global/Cookies";
+import ProfilePage from "./pages/profilePage/ProfilePage";
 
 function App() {
   return (
@@ -39,11 +40,12 @@ function App() {
             <Route
               path="/confirm-email/:token"
               element={<ConfirmEmailPage />}
-            />            
+            />
             <Route path="/match/:id" element={<MatchPage />} />
             <Route path="/player/:id" element={<PlayerPage />} />
             <Route path="/tournaments/*" element={<TournamentsPage />} />
             <Route path="/tennis-grounds/*" element={<GroundsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </div>
         <Footer />

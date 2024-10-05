@@ -17,7 +17,7 @@ function GroundsList() {
     try {
       setGrounds(await fetchGrounds());
     } catch (e: any) {
-      toast.error("Failed to fetch tennis grounds.");
+      toast.error(e.response.data.message || "Failed to fetch tennis grounds.");
     }
   };
 

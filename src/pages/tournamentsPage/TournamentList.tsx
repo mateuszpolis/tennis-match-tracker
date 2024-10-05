@@ -17,7 +17,7 @@ function TournamentList() {
     try {
       setTournaments(await fetchTournaments());
     } catch (e: any) {
-      toast.error("Failed to fetch tournaments");
+      toast.error(e.response.data.message || "Failed to fetch tournaments");
     }
   };
 

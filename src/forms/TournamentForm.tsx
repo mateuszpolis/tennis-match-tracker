@@ -42,10 +42,9 @@ function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
         autoClose: 3000,
       });
       navigate("/tournaments");
-    } catch (error: any) {
-      console.error("Tournament submission failed", error);
+    } catch (e: any) {
       toast.update(toastId, {
-        render: error.message || "Error occurred",
+        render: e.response.data.message || "Error occurred",
         type: "error",
         isLoading: false,
         autoClose: 3000,

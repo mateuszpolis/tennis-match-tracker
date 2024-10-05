@@ -16,7 +16,9 @@ function HomePage() {
         })
       );
     } catch (e: any) {
-      toast.error("Failed to fetch upcoming tournaments");
+      toast.error(
+        e.response.data.message || "Failed to fetch upcoming tournaments"
+      );
     }
   };
 

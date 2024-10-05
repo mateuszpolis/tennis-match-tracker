@@ -49,11 +49,10 @@ function TournamentEditionForm({
         isLoading: false,
         autoClose: 3000,
       });
-      navigate(`/tournaments/${tournamentId}/editions`);
-    } catch (error: any) {
-      console.error("Tournament edition submission failed", error);
+      navigate(`/tournaments/${tournamentId}`);
+    } catch (e: any) {
       toast.update(toastId, {
-        render: error.message || "Error occurred",
+        render: e.response.data.message || "Error occurred",
         type: "error",
         isLoading: false,
         autoClose: 3000,
