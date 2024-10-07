@@ -1,0 +1,116 @@
+import React from "react";
+import { useTable, useSortBy, Column } from "react-table";
+import { useNavigate } from "react-router-dom";
+import { UserTournamentEdition } from "../../../../models/TournamentEdition";
+
+type Props = {
+  players: UserTournamentEdition[];
+};
+
+const TournamentTable = ({ players }: Props) => {
+  const navigate = useNavigate();
+
+  const data = React.useMemo(
+    () =>
+      players.map((player) => ({
+        name: player.user?.name + " " + player.user?.surname,
+        wins: player.numberOfWins,
+        losses: player.numberOfLosses,
+        points: player.pointsReceived,
+        userId: player.userId,
+      })),
+    [players]
+  );
+
+  const columns = React.useMemo<
+    Column<{
+      name: string;
+      wins: number;
+      losses: number;
+      points: number;
+      userId: number;
+    }>[]
+  >(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name" as const,
+      },
+      {
+        Header: "Wins",
+        accessor: "wins" as const,
+      },
+      {
+        Header: "Losses",
+        accessor: "losses" as const,
+      },
+      {
+        Header: "Points",
+        accessor: "points" as const,
+      },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useSortBy
+    );
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Players</h2>
+      <table {...getTableProps()} className="w-full border-collapse">
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps(
+                    (column as any).getSortByToggleProps()
+                  )}
+                  className="border p-4 bg-gray-100 cursor-pointer"
+                >
+                  {column.render("Header")}
+                  <span>
+                    {(column as any).isSorted
+                      ? (column as any).isSortedDesc
+                        ? " 🔽"
+                        : " 🔼"
+                      : ""}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr
+                {...row.getRowProps()}
+                className="hover:bg-gray-100 cursor-pointer w-1/4"
+                onClick={() => {
+                  navigate(`/player/${row.original.userId}`);
+                }}
+              >
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()} className="border p-4">
+                    {cell.render("Cell")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default TournamentTable;

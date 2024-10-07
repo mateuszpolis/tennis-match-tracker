@@ -17,14 +17,18 @@ function MatchCard({ match }: Props) {
         <p className="font-semibold">
           {match.firstPlayer.name} vs. {match.secondPlayer.name}
         </p>
-        <p className="text-gray-600">
-          Score:{" "}
-          <span className="font-semibold">
-            {match.firstPlayerScore} - {match.secondPlayerScore}
-          </span>
-        </p>
+        {match.finished ? (
+          <p className="text-gray-600">
+            Score:{" "}
+            <span className="font-semibold">
+              {match.firstPlayerScore} - {match.secondPlayerScore}
+            </span>
+          </p>
+        ) : (
+          <p className="text-gray-600">Upcoming match</p>
+        )}
         <p className="text-gray-500 text-sm">
-          Date: {match.date.toLocaleDateString("pl-PL")}
+          Date: {new Date(match.date).toLocaleDateString("pl-PL")}
         </p>
       </div>
 

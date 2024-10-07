@@ -1,6 +1,9 @@
+import { Match } from "./Match";
 import { Tournament } from "./Tournament";
+import { User } from "./User";
 
 export type TournamentEdition = {
+  id: number;
   year: number;
   tournamentId: number;
   editionName?: string;
@@ -8,7 +11,10 @@ export type TournamentEdition = {
   endDate: Date;
   maximumNumberOfContestants: number;
   currentNumberOfContestants: number;
+  registrationOpen: boolean;
   tournament?: Tournament;
+  players?: UserTournamentEdition[];
+  matches?: Match[];
 };
 
 export type TournamentEditionCreationAttributes = {
@@ -17,4 +23,16 @@ export type TournamentEditionCreationAttributes = {
   startDate: Date;
   endDate: Date;
   maximumNumberOfContestants: number;
+};
+
+export type UserTournamentEdition = {
+  userId: number;
+  tournamentEditionId: number;
+  numberOfMatches: number;
+  numberOfWins: number;
+  numberOfLosses: number;
+  round: number;
+  pointsReceived: number;
+
+  user?: User;
 };

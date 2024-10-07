@@ -11,6 +11,8 @@ export type Match = {
   secondPlayerScore: number;
   ground: TennisGround;
   surface: Surface;
+  finished: boolean;
+  round?: number;
   firstPlayerStats?: PlayerStats;
   secondPlayerStats?: PlayerStats;
   tournament?: Tournament;

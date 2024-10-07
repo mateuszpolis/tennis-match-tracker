@@ -21,6 +21,7 @@ function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
     defaultValues: {
       name: tournament?.name || "",
       tennisGroundId: tournament?.tennisGroundId || undefined,
+      points: tournament?.points || 0,
     },
   });
 
@@ -68,6 +69,23 @@ function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
                 {...field}
                 label="Tournament Name"
                 fullWidth
+                error={!!errors.name}
+                helperText={errors.name ? String(errors.name.message) : ""}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Controller
+            name="points"
+            control={control}
+            rules={{ required: "Points are required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Points"
+                fullWidth
+                type="number"
                 error={!!errors.name}
                 helperText={errors.name ? String(errors.name.message) : ""}
               />

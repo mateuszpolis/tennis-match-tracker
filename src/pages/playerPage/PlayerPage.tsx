@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import "tailwindcss/tailwind.css";
 import { Match } from "../../models/Match";
-import { mockUser, User } from "../../models/User";
+import { User } from "../../models/User";
 
 ChartJS.register(
   CategoryScale,
@@ -28,8 +28,10 @@ ChartJS.register(
   Legend
 );
 
-function PlayerPage() {
-  const user = mockUser;
+function PlayerPage({ user }: { user?: User }) {
+  if (!user) {
+    return <div className="p-4 text-center">No user info available.</div>;
+  }
 
   const { playerInfo } = user;
 

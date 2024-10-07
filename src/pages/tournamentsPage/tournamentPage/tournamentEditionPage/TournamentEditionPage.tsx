@@ -5,6 +5,8 @@ import { useTournament } from "../../../../context/TournamentContext";
 import { toast } from "react-toastify";
 import { CalendarToday } from "@mui/icons-material";
 import { useAuth } from "../../../../context/AuthContext";
+import TournamentTable from "./TournamentTable";
+import TournamentMatches from "./TournamentMatches";
 
 type Props = {
   tournamentId: number;
@@ -15,12 +17,13 @@ function TournamentEditionPage({ tournamentId }: Props) {
   const [tournamentEdition, setTournamentEdition] =
     useState<TournamentEdition | null>(null);
 
-  const { getTournamentEdition, signupForTournament } = useTournament();
+  const { getTournamentEdition, signupForTournament, closeRegistration } =
+    useTournament();
 
   const signup = async () => {
     const toastId = toast.loading("Signing up...");
     try {
-      await signupForTournament(tournamentId, Number(year!));
+      await signupForTournament(tournamentEdition!.id);
 
       toast.update(toastId, {
         render: "Signed up successfully!",
@@ -31,6 +34,27 @@ function TournamentEditionPage({ tournamentId }: Props) {
     } catch (e: any) {
       toast.update(toastId, {
         render: e.response.data.message || "Failed to sign up",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const startTournament = async () => {
+    const toastId = toast.loading("Starting tournament...");
+    try {
+      await closeRegistration(tournamentEdition!.id);
+
+      toast.update(toastId, {
+        render: "Tournament started successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (e: any) {
+      toast.update(toastId, {
+        render: e.response.data.message || "Failed to start tournament",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -77,12 +101,21 @@ function TournamentEditionPage({ tournamentId }: Props) {
             {tournamentEdition.tournament?.name} {tournamentEdition.year}
           </h2>
           {isUpcomingEvent && signupPossible && isAuthenticated && (
-            <button
-              onClick={signup}
-              className="p-4 bg-background text-primary rounded-md hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
-            >
-              Sign up for the event
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={signup}
+                className="p-4 text-background rounded-md bg-primary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+              >
+                Sign up for the event
+              </button>
+
+              <button
+                onClick={startTournament}
+                className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+              >
+                Close registration
+              </button>
+            </div>
           )}
         </div>
         <div className="flex items-center space-x-2">
@@ -112,6 +145,8 @@ function TournamentEditionPage({ tournamentId }: Props) {
           </div>
         </div>
       </div>
+      <TournamentTable players={tournamentEdition.players!} />
+      <TournamentMatches tournamentEdition={tournamentEdition} />
     </div>
   );
 }

@@ -37,21 +37,21 @@ function NavBar() {
               <Home sx={{ fontSize: width <= 768 ? 25 : 40 }} />
             </IconButton>
           </div>
-          <div className="flex items-center space-x-2">
-            <Link
-              to="/tournaments"
-              className="hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
-            >
-              Tournaments
-            </Link>
-            <Link
-              to="/tennis-grounds"
-              className="hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
-            >
-              Tennis Grounds
-            </Link>
-          </div>
-          <div>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 divide-x">
+              <Link
+                to="/tournaments"
+                className="px-2 hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
+              >
+                Tournaments
+              </Link>
+              <Link
+                to="/tennis-grounds"
+                className="px-2 hover:underline hover:text-primary text-lg font-bold hover:decoration-primary transition-all"
+              >
+                Tennis Grounds
+              </Link>
+            </div>
             {isAuthenticated ? (
               <IconButton
                 component={Link}

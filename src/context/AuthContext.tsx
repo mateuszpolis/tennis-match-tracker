@@ -37,7 +37,8 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const [user, setUser] = useState<User | null>(null);
-  const isAuthenticated = !!user;
+  // TODO: sprawdzic czy jest token
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!user);
 
   const fetchUser = async () => {
     try {
@@ -49,6 +50,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
+        setIsAuthenticated(true);
       } else {
         setUser(null);
       }
@@ -59,7 +61,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
+    // if (isAuthenticated) {
     fetchUser();
+    // }
   }, []);
 
   const confirmEmail = async (token: string) => {
@@ -186,6 +190,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       });
 
       setUser(null);
+      setIsAuthenticated(false);
     } catch (error) {
       console.error("Logout error:", error);
     }

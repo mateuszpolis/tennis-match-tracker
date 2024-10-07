@@ -26,7 +26,7 @@ interface TournamentContextType {
     data: Partial<TournamentEdition>
   ) => Promise<void>;
   getTournamentEditions: (filters?: {
-    name?: string;
+    namne?: string;
     groundId?: number;
     surface?: Surface;
     sortByStartDate?: "asc" | "desc";
@@ -34,10 +34,11 @@ interface TournamentContextType {
     startDateAfter?: Date;
   }) => Promise<TournamentEdition[]>;
   getTournamentEdition: (
-    id: number,
+    tournamentId: number,
     year: number
   ) => Promise<TournamentEdition>;
-  signupForTournament: (tournamnetId: number, year: number) => Promise<any>;
+  signupForTournament: (tournamentEditionId: number) => Promise<any>;
+  closeRegistration: (tournamentEditionId: number) => Promise<any>;
 }
 
 const TournamentContext = createContext<TournamentContextType | undefined>(
@@ -150,14 +151,14 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const getTournamentEdition = async (
-    id: number,
+    tournamentId: number,
     year: number
   ): Promise<TournamentEdition> => {
     const config = {
       method: "get",
       url: `${apiUrl}/api/tournaments/edition/one`,
       params: {
-        id,
+        tournamentId,
         year,
       },
     };
@@ -167,15 +168,27 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const signupForTournament = async (
-    tournamentId: number,
-    year: number
+    tournamentEditionId: number
   ): Promise<any> => {
     const config = await withAuth({
       method: "post",
       url: `${apiUrl}/api/tournaments/edition/signup`,
       data: {
-        tournamentId,
-        year,
+        tournamentEditionId,
+      },
+    });
+
+    await axios(config);
+  };
+
+  const closeRegistration = async (
+    tournamentEditionId: number
+  ): Promise<any> => {
+    const config = await withAuth({
+      method: "post",
+      url: `${apiUrl}/api/tournaments/edition/start`,
+      data: {
+        tournamentEditionId,
       },
     });
 
@@ -195,6 +208,7 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
         getTournamentEditions,
         getTournamentEdition,
         signupForTournament,
+        closeRegistration,
       }}
     >
       {children}

@@ -39,7 +39,7 @@ function TournamentList() {
         Add new Tournament
       </Button>
       <h1 className="text-2xl font-bold uppercase text-primary">
-        List of Tennis Grounds:
+        List of Tournaments:
       </h1>
       <div className="p-3 space-y-2">
         {tournaments.map((tournament) => (
