@@ -42,7 +42,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/details`, {
+      const response = await fetch(`${apiUrl}/api/auth/details`, {
         method: "GET",
         credentials: "include",
       });
@@ -68,7 +68,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const confirmEmail = async (token: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/confirm`, {
+      const response = await fetch(`${apiUrl}/api/auth/confirm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const forgotPassword = async (email: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/forgot-password`, {
+      const response = await fetch(`${apiUrl}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const resetPassword = async (password: string, token: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/reset-password`, {
+      const response = await fetch(`${apiUrl}/api/auth/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     password: string
   ) => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/register`, {
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -161,7 +161,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/users/login`, {
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -184,7 +184,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${apiUrl}/api/users/logout`, {
+      await fetch(`${apiUrl}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

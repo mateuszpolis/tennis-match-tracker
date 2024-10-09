@@ -17,7 +17,7 @@ function RegisterForm() {
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    const toastId = toast.loading("Rejestracja w toku...", {
+    const toastId = toast.loading("Registering...", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -31,7 +31,7 @@ function RegisterForm() {
     try {
       await register(data.name, data.surname, data.email, data.password);
       toast.update(toastId, {
-        render: "Zarejestrowano pomyślnie!",
+        render: "Registration successful!",
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -62,12 +62,12 @@ function RegisterForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Imię jest wymagane",
+          required: "Name is required",
         }}
         render={({ field }) => (
           <TextField
             {...field}
-            label="Imię"
+            label="Name"
             error={!!errors.name}
             helperText={errors.name ? String(errors.name.message) : ""}
           />
@@ -79,12 +79,12 @@ function RegisterForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Nazwisko jest wymagane",
+          required: "Surname is required",
         }}
         render={({ field }) => (
           <TextField
             {...field}
-            label="Nazwisko"
+            label="Surname"
             error={!!errors.surname}
             helperText={errors.surname ? String(errors.surname.message) : ""}
           />
@@ -96,10 +96,10 @@ function RegisterForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Email jest wymagany",
+          required: "Email is required",
           pattern: {
             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
-            message: "Niepoprawny adres email",
+            message: "Invalid email address",
           },
         }}
         render={({ field }) => (
@@ -117,11 +117,11 @@ function RegisterForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Hasło jest wymagane",
+          required: "Password is required",
           pattern: {
             value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
             message:
-              "Hasło musi zawierać co najmniej 8 znaków, jedną cyfrę i jeden znak specjalny",
+              "Password must contain at least 8 characters, including UPPER/lowercase and numbers",
           },
         }}
         render={({ field }) => (
@@ -140,14 +140,14 @@ function RegisterForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Powtórzenie hasła jest wymagane",
-          validate: (value) => value === password || "Hasła muszą się zgadzać",
+          required: "Password confirmation is required",
+          validate: (value) => value === password || "Passwords do not match",
         }}
         render={({ field }) => (
           <TextField
             {...field}
             type="password"
-            label="Powtórz hasło"
+            label="Confirm Password"
             error={!!errors.confirmPassword}
             helperText={
               errors.confirmPassword
@@ -164,7 +164,7 @@ function RegisterForm() {
         color="primary"
         disabled={environment === "production" ? true : false}
       >
-        Zarejestruj się
+        Register
       </Button>
     </form>
   );

@@ -20,7 +20,7 @@ function LoginForm() {
   const cookieConsent = Cookies.get("zgoda_na_cookies");
 
   const onSubmit = async (data: any) => {
-    const toastId = toast.loading("Logowanie...", {
+    const toastId = toast.loading("Logging in...", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -34,7 +34,7 @@ function LoginForm() {
     try {
       await login(data.email, data.password);
       toast.update(toastId, {
-        render: "Zalogowano pomyślnie!",
+        render: "Loggin successful!",
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -61,10 +61,10 @@ function LoginForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Email jest wymagany",
+          required: "Email is required",
           pattern: {
             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
-            message: "Niepoprawny adres email",
+            message: "Invalid email address",
           },
         }}
         render={({ field }) => (
@@ -81,13 +81,13 @@ function LoginForm() {
         control={control}
         defaultValue=""
         rules={{
-          required: "Hasło jest wymagane",
+          required: "Password is required",
         }}
         render={({ field }) => (
           <TextField
             {...field}
             type="password"
-            label="Hasło"
+            label="Password"
             error={!!errors.password}
             helperText={errors.password ? String(errors.password.message) : ""}
           />
@@ -99,7 +99,7 @@ function LoginForm() {
         color="primary"
         disabled={cookieConsent !== "true"}
       >
-        Zaloguj się
+        Login
       </Button>
     </form>
   );

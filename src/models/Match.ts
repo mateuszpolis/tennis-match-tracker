@@ -1,37 +1,38 @@
+import { PlayerStats } from "./PlayerStats";
 import { Surface, TennisGround } from "./TennisGround";
-import { Tournament } from "./Tournament";
+import { TournamentEdition } from "./TournamentEdition";
 import { User } from "./User";
 
 export type Match = {
   id: number;
+  firstPlayerId: number;
+  secondPlayerId: number;
   firstPlayer: User;
   secondPlayer: User;
   date: Date;
   firstPlayerScore: number;
   secondPlayerScore: number;
+  groundId: number;
   ground: TennisGround;
   surface: Surface;
   finished: boolean;
   round?: number;
   firstPlayerStats?: PlayerStats;
   secondPlayerStats?: PlayerStats;
-  tournament?: Tournament;
+  tournamentEdition?: TournamentEdition;
+  tournamentEditionId?: number;
 };
 
-export type PlayerStats = {
-  aces: number;
-  doubleFaults: number;
-  firstServePercentage: number;
-  pointsWonOnFirstServe: number;
-  pointsWonOnSecondServe: number;
-  breakPointsSaved: number;
-  returnPointsWonOnFirstServe: number;
-  returnPointsWonOnSecondServe: number;
-  breakPointsConverted: number;
-  winners: number;
-  unforcedErrors: number;
-  netPointsWon: number;
-  consecutivePointsWon: number;
-  servicePointsWon: number;
-  returnPointsWon: number;
+export type MatchCreationAttributes = {
+  firstPlayerId: number;
+  secondPlayerId: number;
+  date: Date;
+  firstPlayerScore: number;
+  secondPlayerScore: number;
+  groundId: number;
+  finished: boolean;
+  round?: number;
+  firstPlayerStats?: PlayerStats;
+  secondPlayerStats?: PlayerStats;
+  tournamentEditionId?: number;
 };

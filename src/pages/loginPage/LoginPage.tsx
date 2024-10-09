@@ -23,22 +23,19 @@ function LoginPage() {
   return (
     <div className="w-full flex flex-col items-center">
       {cookieConsent !== "true" && (
-        <p className="text-gray-500">
-          Wyraź zgodę na pliki cookies, aby korzystać z logowania (po akceptacji
-          odśwież stronę)
-        </p>
+        <p className="text-gray-500">Accept cookies to use the website. </p>
       )}
-      <h1 className="text-3xl font-bold mb-4">Logowanie</h1>
+      <h1 className="text-3xl font-bold mb-4">Login</h1>
       <div className="max-w-4xl w-full">
         <LoginForm />
       </div>
       <Link to="/register" className="mt-4 underline">
         {" "}
-        Nie masz konta? Zarejestruj się!
+        You don't have an account? Register now!
       </Link>
       <Link to="/forgot-password" className="mt-4 underline">
         {" "}
-        Zapomniałeś hasła?
+        Forgot your password?
       </Link>
     </div>
   );

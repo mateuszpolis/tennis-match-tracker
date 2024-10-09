@@ -86,9 +86,6 @@ function TournamentEditionPage({ tournamentId }: Props) {
     return <div>Loading...</div>;
   }
 
-  const signupPossible =
-    tournamentEdition.currentNumberOfContestants <
-    tournamentEdition.maximumNumberOfContestants;
   const isUpcomingEvent = new Date(tournamentEdition.startDate) > new Date();
 
   return (
@@ -100,23 +97,25 @@ function TournamentEditionPage({ tournamentId }: Props) {
             {tournamentEdition.editionName || ""}{" "}
             {tournamentEdition.tournament?.name} {tournamentEdition.year}
           </h2>
-          {isUpcomingEvent && signupPossible && isAuthenticated && (
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={signup}
-                className="p-4 text-background rounded-md bg-primary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
-              >
-                Sign up for the event
-              </button>
+          {isUpcomingEvent &&
+            tournamentEdition.registrationOpen &&
+            isAuthenticated && (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={signup}
+                  className="p-4 text-background rounded-md bg-primary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+                >
+                  Sign up for the event
+                </button>
 
-              <button
-                onClick={startTournament}
-                className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
-              >
-                Close registration
-              </button>
-            </div>
-          )}
+                <button
+                  onClick={startTournament}
+                  className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+                >
+                  Close registration
+                </button>
+              </div>
+            )}
         </div>
         <div className="flex items-center space-x-2">
           <CalendarToday />
@@ -135,7 +134,9 @@ function TournamentEditionPage({ tournamentId }: Props) {
             <span>No. of contestants:</span>
             <span
               className={`${
-                signupPossible ? "text-green-600" : "text-red-600"
+                tournamentEdition.registrationOpen
+                  ? "text-green-600"
+                  : "text-red-600"
               }`}
             >
               {tournamentEdition.currentNumberOfContestants}
