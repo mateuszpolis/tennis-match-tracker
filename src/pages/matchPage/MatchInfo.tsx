@@ -68,7 +68,7 @@ function MatchInfo({ match }: Props) {
           </Link>
         )}
       </div>
-      <div>
+      <div className="py-10">
         <h1 className="text-4xl font-bold text-center mb-8">
           <Link
             className="hover:underline"
@@ -111,8 +111,8 @@ function MatchInfo({ match }: Props) {
         )}
 
         {(!firstPlayerStats || !secondPlayerStats) && (
-          <div className="mt-10 bg-accent h-20 p-24">
-            <h2 className="text-xl font-bold uppercase text-background text-center">
+          <div className="mt-10">
+            <h2 className="text-xl font-bold uppercase text-center">
               Stats not available for this game
             </h2>
           </div>

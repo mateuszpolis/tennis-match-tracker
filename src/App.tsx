@@ -11,7 +11,7 @@ import RegisterPage from "./pages/registerPage/RegisterPage";
 import ConfirmEmailPage from "./pages/confirmEmailPage/ConfirmEmailPage";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/global/Footer";
-import NavBar from "./components/global/NavBar";
+import NavBar from "./components/global/navBar/NavBar";
 import "react-toastify/dist/ReactToastify.css";
 import MatchPage from "./pages/matchPage/MatchPage";
 import PlayerPage from "./pages/playerPage/PlayerPage";

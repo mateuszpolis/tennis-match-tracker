@@ -1,5 +1,4 @@
 import { Match } from "./Match";
-import { Surface } from "./TennisGround";
 
 export enum UserRole {
   BACKEND_ADMIN = "BACKEND_ADMIN",

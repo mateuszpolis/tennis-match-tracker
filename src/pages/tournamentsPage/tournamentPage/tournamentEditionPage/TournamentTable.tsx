@@ -67,12 +67,16 @@ const TournamentTable = ({ players }: Props) => {
       <table {...getTableProps()} className="w-full border-collapse">
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              key={headerGroup.headers[0].id}
+            >
               {headerGroup.headers.map((column) => (
                 <th
                   {...column.getHeaderProps(
                     (column as any).getSortByToggleProps()
                   )}
+                  key={column.id}
                   className="border p-4 bg-gray-100 cursor-pointer"
                 >
                   {column.render("Header")}
@@ -94,13 +98,18 @@ const TournamentTable = ({ players }: Props) => {
             return (
               <tr
                 {...row.getRowProps()}
+                key={row.id}
                 className="hover:bg-gray-100 cursor-pointer w-1/4"
                 onClick={() => {
                   navigate(`/player/${row.original.userId}`);
                 }}
               >
                 {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()} className="border p-4">
+                  <td
+                    {...cell.getCellProps()}
+                    key={cell.column.id}
+                    className="border p-4"
+                  >
                     {cell.render("Cell")}
                   </td>
                 ))}
