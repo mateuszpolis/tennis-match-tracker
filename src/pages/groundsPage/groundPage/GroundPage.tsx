@@ -27,38 +27,52 @@ function GroundPage() {
       navigate("/tennis-grounds");
     }
     getTennisGround();
-  });
+  }, [id, navigate]);
 
   if (!ground) {
     return <div>Loading...</div>;
   }
 
+  const backgroundUrl = `/tennis_ground_${ground.surface.toLowerCase()}.webp`;
+
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold mb-4">{ground.name}</h1>
-      <p className="mb-2">{ground.description}</p>
-      <p className="mb-2">
-        <strong>Construction Date:</strong>{" "}
-        {new Date(ground.constructionDate).toLocaleDateString("pl-PL")}
-      </p>
-      <p className="mb-2">
-        <strong>Location:</strong> {ground.city}, {ground.country}
-      </p>
-      <div
-        className={`text-xs text-background font-semibold py-1 px-2 w-fit rounded ${
-          ground.surface === "CLAY"
-            ? "bg-orange-700"
-            : ground.surface === "GRASS"
-            ? "bg-green-700"
-            : "bg-blue-700"
-        }`}
-      >
-        {ground.surface}
+    <div
+      className="p-8 min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${backgroundUrl})`,
+      }}
+    >
+      <div className="bg-white bg-opacity-70 backdrop-blur-md p-4">
+        <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
+          {ground.name}
+        </h1>
+
+        <p className="mb-2">{ground.description}</p>
+        <p className="mb-2">
+          <strong>Construction Date:</strong>{" "}
+          {new Date(ground.constructionDate).toLocaleDateString("pl-PL")}
+        </p>
+        <p className="mb-2">
+          <strong>Location:</strong> {ground.city}, {ground.country}
+        </p>
+        <div
+          className={`text-xs text-background font-semibold py-1 px-2 w-fit rounded ${
+            ground.surface === "CLAY"
+              ? "bg-orange-700"
+              : ground.surface === "GRASS"
+              ? "bg-green-700"
+              : "bg-blue-700"
+          }`}
+        >
+          {ground.surface}
+        </div>
       </div>
 
-      <h2 className="text-3xl font-bold mt-8 mb-4">Tournaments Held</h2>
+      <h2 className="text-4xl font-bold mt-8 mb-4 uppercase text-white font-display">
+        Tournaments Held
+      </h2>
       {ground.tournaments && ground.tournaments.length > 0 ? (
-        <ul className="list-disc pl-5 space-y-2">
+        <ul className="list-disc space-y-2">
           {ground.tournaments.map((tournament) => (
             <TournamentCard tournament={tournament} />
           ))}

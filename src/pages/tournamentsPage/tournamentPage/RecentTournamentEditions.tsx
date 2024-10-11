@@ -9,8 +9,8 @@ type Props = {
 
 function RecentTournamentEditions({ tournament }: Props) {
   return (
-    <div>
-      <div className="mt-8">
+    <div className="">
+      <div className="mt-8 bg-white bg-opacity-70 backdrop-blur-md p-4">
         <h2 className="text-2xl font-bold mb-2 text-primary">Ground</h2>
         <Link
           className="text-gray-600 underline"

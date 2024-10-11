@@ -2,18 +2,25 @@ import React from "react";
 import { StatComparison } from "../../components/pages/matchPage/StatComparison";
 import { Match } from "../../models/Match";
 import { Link } from "react-router-dom";
+import MatchCard from "../../components/global/MatchCard";
 
 type Props = {
   match: Match;
+  lastMatches: Match[];
 };
 
-function MatchInfo({ match }: Props) {
+function MatchInfo({ match, lastMatches }: Props) {
   const { firstPlayer, secondPlayer, firstPlayerStats, secondPlayerStats } =
     match;
 
   return (
-    <div className="p-8 divide-y space-y-2">
-      <div className="flex justify-between items-start">
+    <div
+      className="p-8 space-y-10"
+      style={{
+        backgroundImage: `url(/match_page_background.webp)`,
+      }}
+    >
+      <div className="flex justify-between items-start bg-white bg-opacity-80 backdrop-blur-sm p-5">
         <div>
           {match.tournamentEdition ? (
             <Link
@@ -68,7 +75,7 @@ function MatchInfo({ match }: Props) {
           </Link>
         )}
       </div>
-      <div className="py-10">
+      <div className="py-10 bg-white bg-opacity-80 backdrop-blur-sm p-5">
         <h1 className="text-4xl font-bold text-center mb-8">
           <Link
             className="hover:underline"
@@ -81,7 +88,7 @@ function MatchInfo({ match }: Props) {
                   : "text-gray-500"
               }`}
             >
-              {firstPlayer.name}
+              {firstPlayer.name + " " + firstPlayer.surname}
             </span>{" "}
           </Link>
           vs{" "}
@@ -96,7 +103,7 @@ function MatchInfo({ match }: Props) {
                   : "text-gray-500"
               }`}
             >
-              {secondPlayer.name}
+              {secondPlayer.name + " " + secondPlayer.surname}
             </span>
           </Link>
         </h1>
@@ -193,7 +200,14 @@ function MatchInfo({ match }: Props) {
           </div>
         )}
       </div>
-      <h2 className="text-2xl font-bold uppercase text-primary">H2H</h2>
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold uppercase text-primary">H2H</h2>
+        <div className="space-y-2">
+          {lastMatches.map((match) => (
+            <MatchCard key={match.id} match={match} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

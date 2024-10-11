@@ -12,6 +12,8 @@ export type TournamentEdition = {
   maximumNumberOfContestants: number;
   currentNumberOfContestants: number;
   registrationOpen: boolean;
+  winnerId?: number;
+  winner?: User;
   tournament?: Tournament;
   players?: UserTournamentEdition[];
   matches?: Match[];

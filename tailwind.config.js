@@ -15,6 +15,9 @@ module.exports = {
         background: "#faf9f9",
         text: "#0000000",
       },
+      fontFamily: {
+        display: ['Rajdhani', 'sans-serif'],
+      }
     },
   },
   plugins: [],

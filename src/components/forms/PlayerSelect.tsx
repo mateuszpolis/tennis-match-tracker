@@ -1,88 +1,94 @@
+import React, { useState, useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
-import { useState, useEffect } from "react";
-import { TennisGround } from "../../../models/TennisGround";
-import { useTennisGround } from "../../../context/TennisGroundContext";
-import useDebounce from "../../../hooks/useDebounce";
+import { toast } from "react-toastify";
+import { User } from "../../models/User";
+import { useUser } from "../../context/UserContext";
+import useDebounce from "../../hooks/useDebounce";
 
-interface GroundSelectProps {
+interface PlayerSelectProps {
   control: any;
   errors: any;
+  name: string;
+  label: string;
   defaultValue?: number;
 }
 
-const GroundSelect = ({ control, errors, defaultValue }: GroundSelectProps) => {
-  const [grounds, setGrounds] = useState<TennisGround[]>([]);
-  const { getGroundsByName, getGround, fetchGrounds } = useTennisGround();
+const PlayerSelect = ({
+  control,
+  errors,
+  name,
+  label,
+  defaultValue,
+}: PlayerSelectProps) => {
+  const [users, setUsers] = useState<User[]>([]);
+  const { getUsersByQuery, getUserById } = useUser();
   const [inputValue, setInputValue] = useState("");
-  const [selectedGround, setSelectedGround] = useState<TennisGround | null>(
-    null
-  );
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
   const debouncedQuery = useDebounce(inputValue, 1000);
 
   useEffect(() => {
     if (defaultValue) {
-      const fetchGroundByIdAsync = async () => {
+      const fetchUserById = async () => {
         setLoading(true);
-        const ground = await getGround(defaultValue);
-        setSelectedGround(ground);
-        setInputValue(ground?.name || "");
+        const user = await getUserById(defaultValue);
+        setSelectedUser(user);
+        setInputValue(user?.name || "");
         setLoading(false);
       };
-      fetchGroundByIdAsync();
+      fetchUserById();
     }
-  }, [defaultValue, getGround]);
+  }, [defaultValue, getUserById]);
 
   useEffect(() => {
-    const fetchTennisGrounds = async () => {
+    const fetchUsers = async () => {
       setLoading(true);
-      if (debouncedQuery !== "") {
-        setGrounds(await getGroundsByName(debouncedQuery));
-      } else {
-        setGrounds(await fetchGrounds());
+      try {
+        setUsers(await getUsersByQuery(debouncedQuery || ""));
+      } catch (e: any) {
+        toast.error(e.response.data.message || "Error occurred");
       }
+
       setLoading(false);
     };
 
     if (debouncedQuery || debouncedQuery === "") {
-      fetchTennisGrounds();
+      fetchUsers();
     }
   }, [debouncedQuery]);
 
   return (
     <Controller
-      name="groundId"
+      name={name}
       control={control}
-      rules={{ required: "Tennis Ground is required" }}
+      rules={{ required: `${label} is required` }}
       render={({ field }) => (
         <Autocomplete
           {...field}
-          value={selectedGround}
+          value={selectedUser}
           inputValue={inputValue}
-          options={grounds}
+          options={users}
           loading={loading}
           getOptionLabel={(option) => option.name || ""}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
-            setSelectedGround(null);
+            setSelectedUser(null);
           }}
           onChange={(event, newValue) => {
-            setSelectedGround(newValue);
+            setSelectedUser(newValue);
             setInputValue(newValue ? newValue.name : "");
             field.onChange(newValue ? newValue.id : "");
           }}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Tennis Ground"
+              label={label}
               variant="outlined"
-              error={!!errors.groundId}
-              helperText={
-                errors.groundId ? String(errors.groundId.message) : ""
-              }
+              error={!!errors[name]}
+              helperText={errors[name] ? String(errors[name].message) : ""}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (
@@ -102,4 +108,4 @@ const GroundSelect = ({ control, errors, defaultValue }: GroundSelectProps) => {
   );
 };
 
-export default GroundSelect;
+export default PlayerSelect;

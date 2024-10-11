@@ -1,11 +1,10 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TextField, Button, MenuItem, Grid } from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TournamentCreationAttributes } from "../models/Tournament";
-import { Surface } from "../models/TennisGround";
-import GroundSelect from "../components/global/forms/GroundSelect";
+import GroundSelect from "../components/forms/GroundSelect";
 
 interface TournamentFormProps {
   tournament?: TournamentCreationAttributes;

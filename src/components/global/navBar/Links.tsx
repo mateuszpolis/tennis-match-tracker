@@ -26,21 +26,21 @@ function Links({ isAuthenticated, width, setIsMenuOpen }: Props) {
         <Link
           onClick={() => setIsMenuOpen(false)}
           to="/rankings"
-          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold transition-all"
+          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold font-display transition-all"
         >
           Rankings
         </Link>
         <Link
           onClick={() => setIsMenuOpen(false)}
           to="/tournaments"
-          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold transition-all"
+          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold font-display transition-all"
         >
           Tournaments
         </Link>
         <Link
           onClick={() => setIsMenuOpen(false)}
           to="/tennis-grounds"
-          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold transition-all"
+          className="px-2 hover:drop-shadow-lg text-primary sm:text-xl text-2xl font-bold font-display transition-all"
         >
           Tennis Grounds
         </Link>

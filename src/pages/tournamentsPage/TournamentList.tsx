@@ -26,7 +26,7 @@ function TournamentList() {
   }, []);
 
   return (
-    <div>
+    <div className="p-8">
       <Button
         size="small"
         color="success"

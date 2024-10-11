@@ -7,7 +7,7 @@ import TournamentPage from "./tournamentPage/TournamentPage";
 
 function TournamentsPage() {
   return (
-    <div>
+    <div className="">
       <Routes>
         <Route path="/" element={<TournamentList />} />
         <Route path="/:id/*" element={<TournamentPage />} />

@@ -19,6 +19,7 @@ import TournamentsPage from "./pages/tournamentsPage/TournamentsPage";
 import GroundsPage from "./pages/groundsPage/GroundsPage";
 import Cookies from "./components/global/Cookies";
 import ProfilePage from "./pages/profilePage/ProfilePage";
+import RankingPage from "./pages/rankingPage/RankingPage";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
       <CombinedProvider>
         <Cookies />
         <NavBar />
-        <div className="p-4 ml-auto mr-auto w-full max-w-screen-2xl">
+        <div className="ml-auto mr-auto w-full max-w-screen-2xl">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -45,6 +46,7 @@ function App() {
             <Route path="/tournaments/*" element={<TournamentsPage />} />
             <Route path="/tennis-grounds/*" element={<GroundsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/rankings" element={<RankingPage />} />
           </Routes>
         </div>
         <Footer />

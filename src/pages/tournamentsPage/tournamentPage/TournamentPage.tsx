@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Tournament } from "../../../models/Tournament";
-import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { useTournament } from "../../../context/TournamentContext";
 import { toast } from "react-toastify";
-import TournamentEditionCard from "../../../components/global/TournamentEditionCard";
 import { CalendarToday } from "@mui/icons-material";
 import AddTournamentEditionPage from "./addTournamentEditionPage/AddTournamentEditionPage";
 import { Button } from "@mui/material";
@@ -37,10 +36,17 @@ function TournamentPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="space-y-3">
+    <div
+      className="p-8 min-h-[85vh]"
+      style={{
+        backgroundImage: `url(/tournament_page_background.webp)`,
+      }}
+    >
+      <div className="space-y-3 bg-white bg-opacity-70 backdrop-blur-md p-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-bold mb-4">{tournament.name}</h1>
+          <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
+            {tournament.name}
+          </h1>
           <Button
             variant="outlined"
             color="success"
@@ -71,7 +77,6 @@ function TournamentPage() {
           <CalendarToday />
           <p>Since: {new Date(tournament.createdAt).getFullYear()}</p>
         </div>
-        <div className="text-gray-600">{tournament.ground.description}</div>
       </div>
       <Routes>
         <Route

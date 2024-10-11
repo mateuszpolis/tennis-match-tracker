@@ -23,7 +23,7 @@ function AddMatchPage({ match }: Props) {
   };
 
   return (
-    <div>
+    <div className="p-8">
       <MatchForm
         match={match}
         onSubmit={submitForm}

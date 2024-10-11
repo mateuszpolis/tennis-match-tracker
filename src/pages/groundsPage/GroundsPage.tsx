@@ -6,7 +6,7 @@ import GroundPage from "./groundPage/GroundPage";
 
 function GroundsPage() {
   return (
-    <div>
+    <div className="">
       <Routes>
         <Route path="/" element={<GroundsList />} />
         <Route path="/:id" element={<GroundPage />} />

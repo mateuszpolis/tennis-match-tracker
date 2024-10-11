@@ -15,7 +15,8 @@ function MatchCard({ match }: Props) {
     >
       <div className="text-lg">
         <p className="font-semibold">
-          {match.firstPlayer.name} vs. {match.secondPlayer.name}
+          {match.firstPlayer.name + " " + match.firstPlayer.surname} vs.{" "}
+          {match.secondPlayer.name + " " + match.secondPlayer.surname}
         </p>
         {match.finished ? (
           <p className="text-gray-600">
@@ -32,9 +33,11 @@ function MatchCard({ match }: Props) {
         </p>
       </div>
 
-      <div className="text-right">
-        <p className="text-gray-600 text-sm">Ground: {match.ground.name}</p>
-      </div>
+      {match.ground && (
+        <div className="text-right">
+          <p className="text-gray-600 text-sm">Ground: {match.ground.name}</p>
+        </div>
+      )}
     </Link>
   );
 }

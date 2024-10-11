@@ -32,5 +32,6 @@ export type User = {
   surname: string;
   role: UserRole;
   status: UserStatus;
+  rankingPoints: number;
   playerInfo?: PlayerInfo;
 };

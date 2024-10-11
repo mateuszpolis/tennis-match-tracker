@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CloseOutlined, Home, Menu } from "@mui/icons-material";
+import { Home, Menu } from "@mui/icons-material";
 import Links from "./Links";
 import { animated, useSpring } from "react-spring";
 
@@ -46,7 +46,7 @@ function NavBar() {
   return (
     <div
       className={`sticky w-full top-0 py-3 z-20 max-h-[136px] overflow-visible flex group backdrop-blur-md flex-col items-center p-4 ml-auto mr-auto transition-all ${
-        isScrolled ? "shadow-md bg-transparent" : "bg-background"
+        isScrolled ? "shadow-md bg-white bg-opacity-50 hover:bg-opacity-100" : "bg-background"
       }`}
     >
       <div className="max-w-screen-2xl w-full">

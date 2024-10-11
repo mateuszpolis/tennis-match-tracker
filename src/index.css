@@ -61,3 +61,7 @@ tr:hover {
 thead th {
   cursor: pointer;
 }
+
+.text-border {
+  -webkit-text-stroke: 1px#3d348b;
+}

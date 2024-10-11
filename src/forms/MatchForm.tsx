@@ -1,15 +1,15 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, Grid } from "@mui/material";
-import { MatchCreationAttributes } from "../models/Match";
+import { Match, MatchCreationAttributes } from "../models/Match";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import PlayerSelect from "../components/global/forms/PlayerSelect";
 import PlayerStatsForm from "./PlayerStatsForm";
-import GroundSelect from "../components/global/forms/GroundSelect";
+import PlayerSelect from "../components/forms/PlayerSelect";
+import GroundSelect from "../components/forms/GroundSelect";
 
 interface MatchFormProps {
-  match?: MatchCreationAttributes | null;
+  match?: Match | null;
   onSubmit: (data: MatchCreationAttributes) => any;
   tournamentGenerated?: boolean;
 }
@@ -55,7 +55,13 @@ function MatchForm({
         isLoading: false,
         autoClose: 3000,
       });
-      navigate("/matches");
+      if (tournamentGenerated) {
+        navigate(
+          `/tournaments/${match?.tournamentEdition?.tournamentId}/edition/${match?.tournamentEdition?.year}`
+        );
+      } else {
+        navigate("/");
+      }
     } catch (e: any) {
       toast.update(toastId, {
         render: e.response.data.message || "Error occurred",

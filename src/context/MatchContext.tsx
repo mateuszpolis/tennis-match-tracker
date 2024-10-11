@@ -4,7 +4,10 @@ import { Match, MatchCreationAttributes } from "../models/Match";
 import { withAuth } from "../middleware/withAuth";
 
 interface MatchContextType {
-  getMatch: (id: number) => Promise<Match>;
+  getMatch: (id: number) => Promise<{
+    match: Match;
+    lastMatches: Match[];
+  }>;
   createMatch: (data: MatchCreationAttributes) => Promise<void>;
   updateMatch: (id: number, data: MatchCreationAttributes) => Promise<void>;
 }
@@ -22,7 +25,12 @@ export const useMatch = () => {
 const MatchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const getMatch = async (id: number): Promise<Match> => {
+  const getMatch = async (
+    id: number
+  ): Promise<{
+    match: Match;
+    lastMatches: Match[];
+  }> => {
     const config = {
       method: "get",
       url: `${apiUrl}/api/matches/${id}`,

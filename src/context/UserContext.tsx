@@ -6,6 +6,7 @@ import { withAuth } from "../middleware/withAuth";
 interface UserContextType {
   getUsersByQuery: (query: string) => Promise<User[]>;
   getUserById: (id: number) => Promise<User>;
+  getRanking: () => Promise<User[]>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -41,10 +42,21 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     return response.data;
   };
 
+  const getRanking = async(): Promise<User[]> => {
+    const config = await withAuth({
+      method: "get",
+      url: `${apiUrl}/api/users/ranking`,
+    });
+
+    const response = await axios(config);
+    return response.data;
+  }
+
   return (
     <UserContext.Provider
       value={{
         getUsersByQuery,
+        getRanking,
         getUserById,
       }}
     >

@@ -2,6 +2,8 @@ import { CalendarToday, SportsTennis } from "@mui/icons-material";
 import React from "react";
 import { TournamentEdition } from "../../models/TournamentEdition";
 import { Link } from "react-router-dom";
+import StarsIcon from "@mui/icons-material/Stars";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 type Props = {
   tournamentEdition: TournamentEdition;
@@ -14,8 +16,13 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
     <Link
       to={`/tournaments/${tournamentEdition.tournamentId}/edition/${tournamentEdition.year}`}
       key={tournamentEdition.year + tournamentEdition.tournamentId}
-      className="bg-white p-5 transition-all shadow-md flex flex-col justify-between hover:shadow-custom"
+      className="bg-white backdrop-blur-lg bg-opacity-80 p-5 transition-all shadow-md flex flex-col justify-between hover:shadow-custom hover:bg-opacity-100"
     >
+      {tournamentEdition.registrationOpen && (
+        <div className="w-fit text-primary font-semibold">
+          Registration open
+        </div>
+      )}
       <div className="w-full flex items-start justify-between">
         <div>
           {new Date(tournamentEdition.startDate) <= new Date() &&
@@ -35,9 +42,10 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
               <span
                 className={`${
                   tournamentEdition.currentNumberOfContestants <
-                  tournamentEdition.maximumNumberOfContestants
+                    tournamentEdition.maximumNumberOfContestants &&
+                  tournamentEdition.registrationOpen
                     ? "text-green-600"
-                    : "text-red-600"
+                    : ""
                 }`}
               >
                 {tournamentEdition.currentNumberOfContestants}
@@ -45,12 +53,6 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
               <span>/</span>
               <span>{tournamentEdition.maximumNumberOfContestants}</span>
             </div>
-            {tournamentEdition.currentNumberOfContestants <
-              tournamentEdition.maximumNumberOfContestants && (
-              <div className="p-2 rounded-md bg-primary w-fit text-background font-semibold">
-                Sign up!
-              </div>
-            )}
           </div>
         )}
       </div>
@@ -60,6 +62,10 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
           {tournamentEdition.editionName || ""}{" "}
           {tournamentEdition.tournament?.name} {tournamentEdition.year}
         </h2>
+        <div className={`text-xl font-bold flex items-center space-x-2`}>
+          {tournamentEdition.tournament?.points}
+          {tournamentEdition.tournament?.points === 2000 && <StarsIcon />}
+        </div>
         <div className="flex items-center space-x-2">
           <CalendarToday />
           <span>
@@ -81,6 +87,17 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
         >
           {tournamentEdition.tournament?.surface}
         </div>
+      </div>
+      <div>
+        {tournamentEdition.winner && (
+          <div className="flex items-center space-x-2">
+            <span>Winner:</span>
+            <span className="text-xl font-bold">
+              {tournamentEdition.winner.name} {tournamentEdition.winner.surname}
+            </span>
+            <EmojiEventsIcon />
+          </div>
+        )}
       </div>
     </Link>
   );

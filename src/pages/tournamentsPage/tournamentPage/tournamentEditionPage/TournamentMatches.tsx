@@ -9,8 +9,11 @@ type Props = {
 function TournamentMatches({ tournamentEdition }: Props) {
   return (
     <div>
-      <h2 className="text-2xl font-bold">Matches</h2>
+      <h2 className="text-2xl font-bold text-background">Matches</h2>
       <div className="p-2 space-y-2">
+        {tournamentEdition.matches!.length === 0 && (
+          <div className="text-background">No matches yet</div>
+        )}
         {tournamentEdition.matches!.map((match) => (
           <MatchCard key={match.id} match={match} />
         ))}

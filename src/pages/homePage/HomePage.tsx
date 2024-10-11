@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTournament } from "../../context/TournamentContext";
 import { TournamentEdition } from "../../models/TournamentEdition";
 import { toast } from "react-toastify";
-import TournamentEditionCard from "../../components/global/TournamentEditionCard";
+import UpcomingTournaments from "./UpcomingTournaments";
+import Information from "./Information";
 
 function HomePage() {
   const { getTournamentEditions } = useTournament();
@@ -13,6 +14,7 @@ function HomePage() {
       setTournaments(
         await getTournamentEditions({
           startDateAfter: new Date(),
+          isFinished: "no"
         })
       );
     } catch (e: any) {
@@ -27,18 +29,16 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold uppercase text-primary mb-6">
-        Upcoming Tournaments
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tournaments.map((tournament) => (
-          <TournamentEditionCard
-            tournamentEdition={tournament}
-            key={tournament.id}
-          />
-        ))}
+    <div
+      className="bg-cover bg-center min-h-screen space-y-10"
+      style={{
+        backgroundImage: `url("home_page_background.webp")`,
+      }}
+    >
+      <div className="p-8">
+        <UpcomingTournaments tournaments={tournaments} />
       </div>
+      <Information />
     </div>
   );
 }

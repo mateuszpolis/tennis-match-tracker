@@ -7,6 +7,7 @@ import { CalendarToday } from "@mui/icons-material";
 import { useAuth } from "../../../../context/AuthContext";
 import TournamentTable from "./TournamentTable";
 import TournamentMatches from "./TournamentMatches";
+import TournamentBracket from "./TournamentBracket";
 
 type Props = {
   tournamentId: number;
@@ -89,9 +90,9 @@ function TournamentEditionPage({ tournamentId }: Props) {
   const isUpcomingEvent = new Date(tournamentEdition.startDate) > new Date();
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 ">
       {" "}
-      <div className="space-y-2">
+      <div className="space-y-2 bg-white bg-opacity-70 backdrop-blur-md p-4 mb-10">
         <div className="flex items-start justify-between">
           <h2 className="text-2xl font-bold">
             {tournamentEdition.editionName || ""}{" "}
@@ -117,26 +118,28 @@ function TournamentEditionPage({ tournamentId }: Props) {
               </div>
             )}
         </div>
-        <div className="flex items-center space-x-2">
-          <CalendarToday />
-          <span>
-            {new Date(tournamentEdition.startDate).toLocaleDateString("pl-PL")}
-          </span>
-          <span>-</span>
-          <span>
-            {new Date(tournamentEdition.endDate).toLocaleDateString("pl-PL")}
-          </span>
-        </div>
-      </div>
-      <div className="w-full flex items-start justify-between">
-        <div className="flex flex-col items-end">
+        <div>
+          <div className="flex items-center space-x-2">
+            <CalendarToday />
+            <div>
+              <span>
+                {new Date(tournamentEdition.startDate).toLocaleDateString(
+                  "pl-PL"
+                )}
+              </span>
+              <span>-</span>
+              <span>
+                {new Date(tournamentEdition.endDate).toLocaleDateString(
+                  "pl-PL"
+                )}
+              </span>
+            </div>
+          </div>
           <div className="flex items-center space-x-1">
             <span>No. of contestants:</span>
             <span
               className={`${
-                tournamentEdition.registrationOpen
-                  ? "text-green-600"
-                  : "text-red-600"
+                tournamentEdition.registrationOpen ? "text-green-600" : ""
               }`}
             >
               {tournamentEdition.currentNumberOfContestants}
@@ -146,6 +149,7 @@ function TournamentEditionPage({ tournamentId }: Props) {
           </div>
         </div>
       </div>
+      <TournamentBracket tournamentEdition={tournamentEdition} />
       <TournamentTable players={tournamentEdition.players!} />
       <TournamentMatches tournamentEdition={tournamentEdition} />
     </div>

@@ -62,8 +62,8 @@ const TournamentTable = ({ players }: Props) => {
     );
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold">Players</h2>
+    <div className="">
+      <h2 className="text-2xl font-bold text-background">Players</h2>
       <table {...getTableProps()} className="w-full border-collapse">
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -77,7 +77,7 @@ const TournamentTable = ({ players }: Props) => {
                     (column as any).getSortByToggleProps()
                   )}
                   key={column.id}
-                  className="border p-4 bg-gray-100 cursor-pointer"
+                  className="border p-4 bg-primary bg-opacity-65 hover:bg-opacity-100 text-white font-bold font-display uppercase text-3xl"
                 >
                   {column.render("Header")}
                   <span>
@@ -99,7 +99,7 @@ const TournamentTable = ({ players }: Props) => {
               <tr
                 {...row.getRowProps()}
                 key={row.id}
-                className="hover:bg-gray-100 cursor-pointer w-1/4"
+                className="bg-white bg-opacity-60 hover:bg-opacity-100 cursor-pointer"
                 onClick={() => {
                   navigate(`/player/${row.original.userId}`);
                 }}
