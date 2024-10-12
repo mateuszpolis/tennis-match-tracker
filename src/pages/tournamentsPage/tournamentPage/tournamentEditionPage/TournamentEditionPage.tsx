@@ -8,6 +8,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import TournamentTable from "./TournamentTable";
 import TournamentMatches from "./TournamentMatches";
 import TournamentBracket from "./TournamentBracket";
+import { UserRole } from "../../../../models/User";
 
 type Props = {
   tournamentId: number;
@@ -32,7 +33,8 @@ function TournamentEditionPage({ tournamentId }: Props) {
         isLoading: false,
         autoClose: 3000,
       });
-    } catch (e: any) {
+      fetchEdition();
+    } catch (e: any) {      
       toast.update(toastId, {
         render: e.response.data.message || "Failed to sign up",
         type: "error",
@@ -53,6 +55,7 @@ function TournamentEditionPage({ tournamentId }: Props) {
         isLoading: false,
         autoClose: 3000,
       });
+      fetchEdition();
     } catch (e: any) {
       toast.update(toastId, {
         render: e.response.data.message || "Failed to start tournament",
@@ -109,12 +112,15 @@ function TournamentEditionPage({ tournamentId }: Props) {
                   Sign up for the event
                 </button>
 
-                <button
-                  onClick={startTournament}
-                  className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
-                >
-                  Close registration
-                </button>
+                {user?.role === UserRole.Admin ||
+                  (user?.role === UserRole.Moderator && (
+                    <button
+                      onClick={startTournament}
+                      className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+                    >
+                      Close registration
+                    </button>
+                  ))}
               </div>
             )}
         </div>

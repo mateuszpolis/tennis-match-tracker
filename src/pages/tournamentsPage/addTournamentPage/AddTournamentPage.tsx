@@ -10,7 +10,6 @@ function AddTournamentPage() {
     data: TournamentCreationAttributes
   ): Promise<any> => {
     try {
-      console.log(data);
       await createTournament(data);
     } catch (e: any) {
       throw e;

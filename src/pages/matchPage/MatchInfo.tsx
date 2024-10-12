@@ -3,6 +3,8 @@ import { StatComparison } from "../../components/pages/matchPage/StatComparison"
 import { Match } from "../../models/Match";
 import { Link } from "react-router-dom";
 import MatchCard from "../../components/global/MatchCard";
+import { UserRole } from "../../models/User";
+import { useAuth } from "../../context/AuthContext";
 
 type Props = {
   match: Match;
@@ -10,6 +12,8 @@ type Props = {
 };
 
 function MatchInfo({ match, lastMatches }: Props) {
+  const { user } = useAuth();
+
   const { firstPlayer, secondPlayer, firstPlayerStats, secondPlayerStats } =
     match;
 
@@ -66,19 +70,21 @@ function MatchInfo({ match, lastMatches }: Props) {
             Date: {new Date(match.date).toLocaleDateString()}
           </p>
         </div>
-        {!match.finished && (
-          <Link
-            to={`edit`}
-            className="shadow-md p-4 text-background rounded-md bg-secondary hover:bg-accent hover:opacity-50 active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
-          >
-            Fill in results
-          </Link>
-        )}
+        {!match.finished &&
+          (user?.role === UserRole.Admin ||
+            user?.role === UserRole.Moderator) && (
+            <Link
+              to={`edit`}
+              className="shadow-md p-4 text-background rounded-md bg-secondary hover:bg-accent hover:opacity-50 active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
+            >
+              Fill in results
+            </Link>
+          )}
       </div>
       <div className="py-10 bg-white bg-opacity-80 backdrop-blur-sm p-5">
-        <h1 className="text-4xl font-bold text-center mb-8">
+        <div className="text-4xl font-bold text-center mb-8 flex space-x-2 items-center justify-center">
           <Link
-            className="hover:underline"
+            className="hover:underline w-full text-right"
             to={`/player/${match.firstPlayer.id}`}
           >
             <span
@@ -91,9 +97,9 @@ function MatchInfo({ match, lastMatches }: Props) {
               {firstPlayer.name + " " + firstPlayer.surname}
             </span>{" "}
           </Link>
-          vs{" "}
+          <span className="w-12">vs</span>
           <Link
-            className="hover:underline"
+            className="hover:underline w-full text-left"
             to={`/player/${match.secondPlayer.id}`}
           >
             <span
@@ -106,7 +112,7 @@ function MatchInfo({ match, lastMatches }: Props) {
               {secondPlayer.name + " " + secondPlayer.surname}
             </span>
           </Link>
-        </h1>
+        </div>
         {match.finished ? (
           <h1 className="text-3xl font-bold text-center mb-8">
             {match.firstPlayerScore} : {match.secondPlayerScore}
@@ -134,66 +140,79 @@ function MatchInfo({ match, lastMatches }: Props) {
             </div>
             <StatComparison
               statName="Aces"
+              statCode="aces"
               player1Stat={firstPlayerStats.aces}
               player2Stat={secondPlayerStats.aces}
             />
             <StatComparison
               statName="Double Faults"
+              statCode="doubleFaults"
               player1Stat={firstPlayerStats.doubleFaults}
               player2Stat={secondPlayerStats.doubleFaults}
             />
             <StatComparison
               statName="First Serve %"
+              statCode="firstServePercentage"
               player1Stat={firstPlayerStats.firstServePercentage}
               player2Stat={secondPlayerStats.firstServePercentage}
             />
             <StatComparison
               statName="Points Won on 1st Serve"
+              statCode="pointsWonOnFirstServe"
               player1Stat={firstPlayerStats.pointsWonOnFirstServe}
               player2Stat={secondPlayerStats.pointsWonOnFirstServe}
             />
             <StatComparison
               statName="Points Won on 2nd Serve"
+              statCode="pointsWonOnSecondServe"
               player1Stat={firstPlayerStats.pointsWonOnSecondServe}
               player2Stat={secondPlayerStats.pointsWonOnSecondServe}
             />
             <StatComparison
               statName="Break Points Saved"
+              statCode="breakPointsSaved"
               player1Stat={firstPlayerStats.breakPointsSaved}
               player2Stat={secondPlayerStats.breakPointsSaved}
             />
             <StatComparison
               statName="Break Points Converted"
+              statCode="breakPointsConverted"
               player1Stat={firstPlayerStats.breakPointsConverted}
               player2Stat={secondPlayerStats.breakPointsConverted}
             />
             <StatComparison
               statName="Winners"
+              statCode="winners"
               player1Stat={firstPlayerStats.winners}
               player2Stat={secondPlayerStats.winners}
             />
             <StatComparison
               statName="Unforced Errors"
+              statCode="unforcedErrors"
               player1Stat={firstPlayerStats.unforcedErrors}
               player2Stat={secondPlayerStats.unforcedErrors}
             />
             <StatComparison
               statName="Net Points Won %"
+              statCode="netPointsWon"
               player1Stat={firstPlayerStats.netPointsWon}
               player2Stat={secondPlayerStats.netPointsWon}
             />
             <StatComparison
               statName="Consecutive Points Won"
+              statCode="consecutivePointsWon"
               player1Stat={firstPlayerStats.consecutivePointsWon}
               player2Stat={secondPlayerStats.consecutivePointsWon}
             />
             <StatComparison
               statName="Service Points Won %"
+              statCode="servicePointsWon"
               player1Stat={firstPlayerStats.servicePointsWon}
               player2Stat={secondPlayerStats.servicePointsWon}
             />
             <StatComparison
               statName="Return Points Won %"
+              statCode="returnPointsWon"
               player1Stat={firstPlayerStats.returnPointsWon}
               player2Stat={secondPlayerStats.returnPointsWon}
             />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar, Radar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -15,6 +15,10 @@ import {
 import "tailwindcss/tailwind.css";
 import { Match } from "../../models/Match";
 import { User } from "../../models/User";
+import { useUser } from "../../context/UserContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import GameHistory from "./GameHistory";
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +32,31 @@ ChartJS.register(
   Legend
 );
 
-function PlayerPage({ user }: { user?: User }) {
+function PlayerPage() {
+  const { id } = useParams<{ id: string }>();
+
+  const [user, setUser] = React.useState<User | null>(null);
+  const { getProfile } = useUser();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getProfile(parseInt(id!));
+        setUser(response);
+      } catch (e: any) {
+        console.error(e);
+      }
+    };
+
+    if (!id) {
+      navigate("/");
+      toast.error("Invalid user id");
+    }
+
+    fetchUser();
+  }, [getProfile, id]);
+
   if (!user) {
     return <div className="p-4 text-center">No user info available.</div>;
   }
@@ -39,14 +67,12 @@ function PlayerPage({ user }: { user?: User }) {
     return <div className="p-4 text-center">No player info available.</div>;
   }
 
-  // Helper to determine if the user won the match
   const didPlayerWin = (match: Match, playerId: number) => {
     return match.firstPlayer.id === playerId
       ? match.firstPlayerScore > match.secondPlayerScore
       : match.secondPlayerScore > match.firstPlayerScore;
   };
 
-  // Calculate win percentage
   const totalGames = playerInfo.gameHistory.length;
   const wins = playerInfo.gameHistory.filter((match) =>
     didPlayerWin(match, user.id)
@@ -54,7 +80,6 @@ function PlayerPage({ user }: { user?: User }) {
   const losses = totalGames - wins;
   const winPercentage = totalGames > 0 ? (wins / totalGames) * 100 : 0;
 
-  // Prepare chart data for wins over years
   const yearlyStats = playerInfo.gameHistory.reduce((acc, match) => {
     const year = new Date(match.date).getFullYear();
     acc[year] = acc[year] || { wins: 0, losses: 0 };
@@ -83,72 +108,70 @@ function PlayerPage({ user }: { user?: User }) {
     ],
   };
 
-  // Prepare radar chart data for strong and weak points
-  const abilityLabels = playerInfo.strongPoints
-    .map((point) => point.name)
-    .concat(playerInfo.weakPoints.map((point) => point.name));
+  const abilityLabels = playerInfo.playerPower.map((point) => point.name);
 
   const radarChartData = {
     labels: abilityLabels,
     datasets: [
       {
-        label: "Strong Points",
-        data: playerInfo.strongPoints.map((point) => point.rating),
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        pointBackgroundColor: "rgba(75, 192, 192, 1)",
-      },
-      {
-        label: "Weak Points",
-        data: playerInfo.weakPoints.map((point) => point.rating),
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        label: "Power Rating",
+        data: playerInfo.playerPower.map((point) => point.rating),
+        backgroundColor: "rgba(61, 52, 139, 0.2)",
+        borderColor: "rgba(61, 52, 139, 1)",
+        pointBackgroundColor: "rgba(61, 52, 139, 1)",
       },
     ],
   };
 
   return (
-    <div className="container mx-auto p-8">
-      <h2 className="text-3xl font-bold mb-4">
-        {user.name} {user.surname}'s Player Page
-      </h2>
-      <p className="text-lg">Email: {user.email}</p>
-      <p className="text-lg">Status: {user.status}</p>
-      <p className="text-lg">Role: {user.role}</p>
-      <p className="text-lg">
-        Active Since: {new Date(playerInfo.activeSince).toDateString()}
-      </p>
-      <p className="text-lg font-semibold">Total Wins: {wins}</p>
-      <p className="text-lg font-semibold">Total Losses: {losses}</p>
-      <p className="text-lg font-semibold">
-        Win Percentage: {winPercentage.toFixed(2)}%
-      </p>
-
-      <h3 className="text-2xl font-bold mt-6">Game History</h3>
-      <ul className="list-disc ml-6">
-        {playerInfo.gameHistory.map((match, index) => (
-          <li key={index} className="my-2">
-            {new Date(match.date).toDateString()} -{" "}
-            {didPlayerWin(match, user.id) ? "Win" : "Loss"} against{" "}
-            {match.firstPlayer.id === user.id
-              ? match.secondPlayer.name
-              : match.firstPlayer.name}
-          </li>
-        ))}
-      </ul>
-
-      <h3 className="text-2xl font-bold mt-6">Performance Over the Years</h3>
-      <div className="w-full md:w-3/4 mx-auto my-6">
-        <Bar data={barChartData} />
+    <div
+      className="p-8 w-full space-y-10"
+      style={{
+        backgroundImage: `url(/player_page_background.webp)`,
+      }}
+    >
+      <div className="bg-white bg-opacity-70 backdrop-blur-md p-4">
+        <h2 className="text-5xl font-bold mb-4 text-primary font-display uppercase">
+          {user.name} {user.surname}
+        </h2>
+        <p className="text-lg font-semibold">
+          Active Since: {new Date(playerInfo.activeSince).toDateString()}
+        </p>
+        <p className="text-gray-500">Total Wins: {wins}</p>
+        <p className="text-gray-500">Total Losses: {losses}</p>
+        <p className="text-gray-500">
+          Win Percentage: {winPercentage.toFixed(2)}%
+        </p>
+      </div>
+      <div className="bg-white bg-opacity-70 backdrop-blur-md p-4 flex items-start justify-between space-x-5">
+        <div className="w-full">
+          <h3 className="text-2xl font-bold font-display">
+            Performance Over the Years
+          </h3>
+          <div className="h-full">
+            <Bar data={barChartData} />
+          </div>
+        </div>
+        <div className="w-full">
+          <h3 className="text-2xl font-bold font-display">
+            Power Rating Compared to Other Players
+          </h3>
+          <p className="text-gray-500 text-sm">
+            Ratings are based only on the direct matches between players. If two
+            players have never played against each other, their ratings are not
+            compared.
+          </p>
+          <div className="">
+            <Radar data={radarChartData} />
+          </div>
+        </div>
       </div>
 
-      <h3 className="text-2xl font-bold mt-6">
-        Player Strengths and Weaknesses
-      </h3>
-      <div className="w-full md:w-3/4 mx-auto my-6">
-        <Radar data={radarChartData} />
-      </div>
+      <GameHistory
+        matches={playerInfo.gameHistory}
+        didPlayerWin={didPlayerWin}
+        playerId={user.id}
+      />
     </div>
   );
 }

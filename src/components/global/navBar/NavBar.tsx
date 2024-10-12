@@ -75,7 +75,7 @@ function NavBar() {
               />
             ) : (
               <animated.div
-                className="w-[400px] max-w-[80vw]"
+                className="w-[400px] max-w-[80vw] bg-white backdrop-blur-md bg-opacity-80"
                 ref={menuRef}
                 style={{
                   ...slideStyle,
@@ -85,7 +85,6 @@ function NavBar() {
                   right: 0,
                   top: 0,
                   height: "100vh",
-                  backgroundColor: "white",
                   boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.2)",
                 }}
               >    

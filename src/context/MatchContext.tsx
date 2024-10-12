@@ -2,6 +2,7 @@ import React, { createContext, useContext, ReactNode } from "react";
 import axios from "axios";
 import { Match, MatchCreationAttributes } from "../models/Match";
 import { withAuth } from "../middleware/withAuth";
+import { PlayerStats } from "../models/PlayerStats";
 
 interface MatchContextType {
   getMatch: (id: number) => Promise<{
@@ -9,7 +10,12 @@ interface MatchContextType {
     lastMatches: Match[];
   }>;
   createMatch: (data: MatchCreationAttributes) => Promise<void>;
-  updateMatch: (id: number, data: MatchCreationAttributes) => Promise<void>;
+  updateMatch: (
+    id: number,
+    updateData: MatchCreationAttributes,
+    firstPlayerStats?: PlayerStats,
+    secondPlayerStats?: PlayerStats
+  ) => Promise<void>;
 }
 
 const MatchContext = createContext<MatchContextType | undefined>(undefined);
@@ -52,12 +58,19 @@ const MatchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const updateMatch = async (
     id: number,
-    data: MatchCreationAttributes
+    updateData: MatchCreationAttributes,
+    firstPlayerStats?: PlayerStats,
+    secondPlayerStats?: PlayerStats
   ): Promise<void> => {
     const config = await withAuth({
       method: "put",
       url: `${apiUrl}/api/matches/edit`,
-      data: { id, ...data },
+      data: {
+        id,
+        firstPlayerStats,
+        secondPlayerStats,
+        updateData,
+      },
     });
 
     await axios(config);

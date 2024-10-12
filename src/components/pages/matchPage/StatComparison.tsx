@@ -1,16 +1,25 @@
+import { higherBetter } from "../../../models/PlayerStats";
+
 interface StatComparisonProps {
   statName: string;
+  statCode: string;
   player1Stat: number;
   player2Stat: number;
 }
 
 export const StatComparison: React.FC<StatComparisonProps> = ({
   statName,
+  statCode,
   player1Stat,
   player2Stat,
 }) => {
-  const player1Better = player1Stat > player2Stat;
-  const player2Better = player2Stat > player1Stat;
+  const player1Better = higherBetter.includes(statCode)
+    ? player1Stat > player2Stat
+    : player1Stat < player2Stat;
+
+  const player2Better = higherBetter.includes(statCode)
+    ? player2Stat > player1Stat
+    : player2Stat < player1Stat;
 
   const player1Width = (player1Stat / Math.max(player1Stat, player2Stat)) * 80;
   const player2Width = (player2Stat / Math.max(player1Stat, player2Stat)) * 80;

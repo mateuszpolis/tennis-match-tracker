@@ -4,14 +4,21 @@ import { Match } from "../../models/Match";
 
 type Props = {
   match: Match;
+  result?: "win" | "loss" | "draw";
 };
 
-function MatchCard({ match }: Props) {
+function MatchCard({ match, result = "draw" }: Props) {
   return (
     <Link
       to={`/match/${match.id}`}
       key={match.id}
-      className="bg-white p-2 shadow-md flex justify-between items-center hover:shadow-custom"
+      className={`bg-white p-2 shadow-md flex justify-between items-center hover:shadow-custom ${
+        result === "win"
+          ? "bg-green-100"
+          : result === "loss"
+          ? "bg-red-100"
+          : ""
+      }`}
     >
       <div className="text-lg">
         <p className="font-semibold">

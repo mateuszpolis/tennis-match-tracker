@@ -5,6 +5,8 @@ import { useMatch } from "../../context/MatchContext";
 import { toast } from "react-toastify";
 import MatchInfo from "./MatchInfo";
 import AddMatchPage from "./addMatchPage/AddMatchPage";
+import PrivateRoute from "../../components/global/PrivateRoute";
+import { UserRole } from "../../models/User";
 
 function MatchPage() {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +45,15 @@ function MatchPage() {
           path="/"
           element={<MatchInfo match={match} lastMatches={lastMatches} />}
         />
-        <Route path="edit" element={<AddMatchPage match={match} />} />
+
+        <Route
+          path="edit"
+          element={
+            <PrivateRoute checkRole={[UserRole.Admin, UserRole.Moderator]}>
+              <AddMatchPage match={match} />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );

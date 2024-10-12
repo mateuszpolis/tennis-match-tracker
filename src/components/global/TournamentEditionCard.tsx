@@ -10,8 +10,6 @@ type Props = {
 };
 
 function TournamentEditionCard({ tournamentEdition }: Props) {
-  console.log(tournamentEdition);
-
   return (
     <Link
       to={`/tournaments/${tournamentEdition.tournamentId}/edition/${tournamentEdition.year}`}

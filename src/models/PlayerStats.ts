@@ -1,4 +1,3 @@
-
 export type PlayerStats = {
   aces: number;
   doubleFaults: number;
@@ -16,3 +15,21 @@ export type PlayerStats = {
   servicePointsWon: number;
   returnPointsWon: number;
 };
+
+export const higherBetter: string[] = [
+  "aces",
+  "firstServePercentage",
+  "pointsWonOnFirstServe",
+  "pointsWonOnSecondServe",
+  "breakPointsSaved",
+  "returnPointsWonOnFirstServe",
+  "returnPointsWonOnSecondServe",
+  "breakPointsConverted",
+  "winners",
+  "netPointsWon",
+  "consecutivePointsWon",
+  "servicePointsWon",
+  "returnPointsWon",
+];
+
+export const lowerBetter: string[] = ["doubleFaults", "unforcedErrors"];

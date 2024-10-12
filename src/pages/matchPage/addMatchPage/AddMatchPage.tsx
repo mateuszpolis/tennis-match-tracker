@@ -13,7 +13,12 @@ function AddMatchPage({ match }: Props) {
   const submitForm = async (data: MatchCreationAttributes): Promise<any> => {
     try {
       if (match) {
-        await updateMatch(match.id, data);
+        await updateMatch(
+          match.id,
+          data,
+          data.firstPlayerStats,
+          data.secondPlayerStats,
+        );
       } else {
         await createMatch(data);
       }
@@ -23,7 +28,13 @@ function AddMatchPage({ match }: Props) {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 space-y-2">
+      <div className="flex items-center space-x-2">
+        <h2 className="text-2xl font-bold uppercase text-primary">
+          {match?.firstPlayer.name + " " + match?.firstPlayer.surname} vs.{" "}
+          {match?.secondPlayer.name + " " + match?.secondPlayer.surname}
+        </h2>
+      </div>
       <MatchForm
         match={match}
         onSubmit={submitForm}

@@ -1,9 +1,9 @@
 import { Match } from "./Match";
 
 export enum UserRole {
-  BACKEND_ADMIN = "BACKEND_ADMIN",
-  MANAGER = "MANAGER",
-  USER = "USER",
+  Admin = "Admin",
+  Moderator = "Moderator",
+  User = "User",
 }
 
 export enum UserStatus {
@@ -21,8 +21,7 @@ export type PlayerInfo = {
   wins: number;
   losses: number;
   gameHistory: Match[];
-  strongPoints: PlayerAbility[];
-  weakPoints: PlayerAbility[];
+  playerPower: PlayerAbility[];
 };
 
 export type User = {

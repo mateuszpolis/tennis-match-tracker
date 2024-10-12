@@ -128,7 +128,7 @@ function RegisterForm() {
           <TextField
             {...field}
             type="password"
-            label="Hasło"
+            label="Password"
             error={!!errors.password}
             helperText={errors.password ? String(errors.password.message) : ""}
           />

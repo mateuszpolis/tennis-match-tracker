@@ -61,9 +61,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
-    // if (isAuthenticated) {
     fetchUser();
-    // }
   }, []);
 
   const confirmEmail = async (token: string) => {
@@ -173,6 +171,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData.user);
+        setIsAuthenticated(true);
       } else {
         throw new Error("Invalid email or password");
       }
