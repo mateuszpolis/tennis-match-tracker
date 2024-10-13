@@ -17,7 +17,7 @@ function AddTournamentPage() {
   };
 
   return (
-    <div>
+    <div className="p-8">
       <TournamentForm onSubmit={submitForm} />
     </div>
   );

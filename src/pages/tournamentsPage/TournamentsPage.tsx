@@ -4,6 +4,7 @@ import TournamentList from "./TournamentList";
 import PrivateRoute from "../../components/global/PrivateRoute";
 import AddTournamentPage from "./addTournamentPage/AddTournamentPage";
 import TournamentPage from "./tournamentPage/TournamentPage";
+import { UserRole } from "../../models/User";
 
 function TournamentsPage() {
   return (
@@ -14,9 +15,9 @@ function TournamentsPage() {
         <Route
           path="/add"
           element={
-            // <PrivateRoute>
-            <AddTournamentPage />
-            // </PrivateRoute>
+            <PrivateRoute checkRole={UserRole.Admin}>
+              <AddTournamentPage />
+            </PrivateRoute>
           }
         />
       </Routes>

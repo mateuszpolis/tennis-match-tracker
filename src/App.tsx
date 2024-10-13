@@ -20,6 +20,7 @@ import GroundsPage from "./pages/groundsPage/GroundsPage";
 import Cookies from "./components/global/Cookies";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import RankingPage from "./pages/rankingPage/RankingPage";
+import PrivateRoute from "./components/global/PrivateRoute";
 
 function App() {
   return (
@@ -45,7 +46,14 @@ function App() {
             <Route path="/player/:id" element={<PlayerPage />} />
             <Route path="/tournaments/*" element={<TournamentsPage />} />
             <Route path="/tennis-grounds/*" element={<GroundsPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <ProfilePage />
+                </PrivateRoute>
+              }
+            />
             <Route path="/rankings" element={<RankingPage />} />
           </Routes>
         </div>

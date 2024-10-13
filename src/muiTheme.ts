@@ -25,7 +25,7 @@ const muiTheme = createTheme({
         root: {
           borderRadius: 0,
           boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "transparent",
         },
       },
     },
@@ -33,7 +33,7 @@ const muiTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
-          backgroundColor: "#ffffff",
+          backgroundColor: "transparent",
           borderColor: "#3d348b",
           boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
           "&:hover": {
@@ -51,7 +51,7 @@ const muiTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
-          backgroundColor: "#e0e0e0",
+          backgroundColor: "transparent",
           boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
         },
       },

@@ -9,6 +9,8 @@ import TournamentTable from "./TournamentTable";
 import TournamentMatches from "./TournamentMatches";
 import TournamentBracket from "./TournamentBracket";
 import { UserRole } from "../../../../models/User";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 type Props = {
   tournamentId: number;
@@ -19,8 +21,12 @@ function TournamentEditionPage({ tournamentId }: Props) {
   const [tournamentEdition, setTournamentEdition] =
     useState<TournamentEdition | null>(null);
 
-  const { getTournamentEdition, signupForTournament, closeRegistration } =
-    useTournament();
+  const {
+    getTournamentEdition,
+    signupForTournament,
+    closeRegistration,
+    deleteTournamentEdition,
+  } = useTournament();
 
   const signup = async () => {
     const toastId = toast.loading("Signing up...");
@@ -34,7 +40,7 @@ function TournamentEditionPage({ tournamentId }: Props) {
         autoClose: 3000,
       });
       fetchEdition();
-    } catch (e: any) {      
+    } catch (e: any) {
       toast.update(toastId, {
         render: e.response.data.message || "Failed to sign up",
         type: "error",
@@ -66,6 +72,46 @@ function TournamentEditionPage({ tournamentId }: Props) {
     }
   };
 
+  const removeEdition = async () => {
+    const toastId = toast.loading("Removing tournament edition...");
+    try {
+      await deleteTournamentEdition(tournamentEdition!.id);
+
+      toast.update(toastId, {
+        render: "Tournament edition removed successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate(`/tournaments/${tournamentId}`);
+    } catch (e: any) {
+      toast.update(toastId, {
+        render:
+          e.response.data.message || "Failed to remove tournament edition",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const showRemoveConfirmation = () => {
+    confirmAlert({
+      title: "Confirm to remove",
+      message: "Are you sure you want to remove this tournament edition?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => removeEdition(),
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
+
   const fetchEdition = async () => {
     try {
       setTournamentEdition(
@@ -90,11 +136,10 @@ function TournamentEditionPage({ tournamentId }: Props) {
     return <div>Loading...</div>;
   }
 
-  const isUpcomingEvent = new Date(tournamentEdition.startDate) > new Date();
+  const isUpcomingEvent = new Date(tournamentEdition.startDate) >= new Date();
 
   return (
-    <div className="mt-10 ">
-      {" "}
+    <div className="mt-10">
       <div className="space-y-2 bg-white bg-opacity-70 backdrop-blur-md p-4 mb-10">
         <div className="flex items-start justify-between">
           <h2 className="text-2xl font-bold">
@@ -112,15 +157,24 @@ function TournamentEditionPage({ tournamentId }: Props) {
                   Sign up for the event
                 </button>
 
-                {user?.role === UserRole.Admin ||
-                  (user?.role === UserRole.Moderator && (
+                {(user?.role === UserRole.Admin ||
+                  user?.role === UserRole.Moderator) && (
+                  <>
                     <button
                       onClick={startTournament}
                       className="p-4 text-background rounded-md bg-secondary hover:bg-accent active:bg-primary w-fit hover:text-background font-semibold uppercase transition-all"
                     >
                       Close registration
                     </button>
-                  ))}
+
+                    <button
+                      onClick={showRemoveConfirmation}
+                      className="p-4 text-background rounded-md bg-red-500 hover:bg-red-700 active:bg-red-600 w-fit hover:text-background font-semibold uppercase transition-all"
+                    >
+                      Remove Tournament Edition
+                    </button>
+                  </>
+                )}
               </div>
             )}
         </div>

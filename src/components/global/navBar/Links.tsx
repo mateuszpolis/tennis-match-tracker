@@ -12,7 +12,7 @@ type Props = {
 function Links({ isAuthenticated, width, setIsMenuOpen }: Props) {
   return (
     <div
-      className={`flex items-center ${
+      className={`flex items-center whitespace-nowrap ${
         width <= 768 ? "flex-col-reverse space-y-4" : "flex-row space-x-4"
       }`}
     >

@@ -22,6 +22,7 @@ export type PlayerInfo = {
   losses: number;
   gameHistory: Match[];
   playerPower: PlayerAbility[];
+  playerRating: number;
 };
 
 export type User = {

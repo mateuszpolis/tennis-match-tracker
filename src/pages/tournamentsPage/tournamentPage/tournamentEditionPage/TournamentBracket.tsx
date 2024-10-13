@@ -51,9 +51,9 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({
       <h2 className="text-2xl font-bold font-display text-primary">
         Tournament Bracket
       </h2>
-      <div className="bracket-grid grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
+      <div className="flex space-x-4 p-4 overflow-x-scroll">
         {rounds.map((round) => (
-          <div className="round" key={round.roundNumber}>
+          <div className="round w-64" key={round.roundNumber}>
             <h3 className="text-xl uppercase font-display text-primary font-bold text-center">
               {round.roundNumber === numRounds
                 ? "Final"

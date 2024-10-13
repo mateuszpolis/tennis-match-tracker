@@ -31,7 +31,7 @@ function AddTournamentEditionPage({ tournamentId }: Props) {
   }, []);
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 p-2 bg-white bg-opacity-80 backdrop-blur-md">
       <TournamentEditionForm
         onSubmit={submitForm}
         tournamentId={tournamentId}

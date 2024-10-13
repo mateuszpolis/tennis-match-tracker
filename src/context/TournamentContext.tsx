@@ -40,6 +40,14 @@ interface TournamentContextType {
   ) => Promise<TournamentEdition>;
   signupForTournament: (tournamentEditionId: number) => Promise<any>;
   closeRegistration: (tournamentEditionId: number) => Promise<any>;
+  deleteTournamentEdition: (tournamentEditionId: number) => Promise<void>;
+  getTournamentEditionsForUser: (
+    userId: number
+  ) => Promise<TournamentEdition[]>;
+  queryTournaments: (query: string) => Promise<{
+    tournaments: Tournament[];
+    tournamentEditions: TournamentEdition[];
+  }>;
 }
 
 const TournamentContext = createContext<TournamentContextType | undefined>(
@@ -93,12 +101,48 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
     await axios(config);
   };
 
+  const queryTournaments = async (query: string) => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/tournaments/query`,
+      params: {
+        query,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data;
+  };
+
+  const deleteTournamentEdition = async (
+    tournamentEditionId: number
+  ): Promise<void> => {
+    const config = await withAuth({
+      method: "delete",
+      url: `${apiUrl}/api/tournaments/delete/edition/${tournamentEditionId}`,
+    });
+
+    await axios(config);
+  };
+
   const fetchTournaments = async (filters?: any): Promise<Tournament[]> => {
     const config = await withAuth({
       method: "get",
       url: `${apiUrl}/api/tournaments/filter`,
       params: filters,
     });
+
+    const response = await axios(config);
+    return response.data;
+  };
+
+  const getTournamentEditionsForUser = async (
+    userId: number
+  ): Promise<TournamentEdition[]> => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/tournaments/edition/user/${userId}`,
+    };
 
     const response = await axios(config);
     return response.data;
@@ -200,6 +244,8 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
     <TournamentContext.Provider
       value={{
         createTournament,
+        queryTournaments,
+        getTournamentEditionsForUser,
         editTournament,
         deleteTournament,
         fetchTournaments,
@@ -210,6 +256,7 @@ const TournamentProvider: React.FC<{ children: ReactNode }> = ({
         getTournamentEdition,
         signupForTournament,
         closeRegistration,
+        deleteTournamentEdition,
       }}
     >
       {children}

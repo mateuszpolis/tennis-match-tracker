@@ -26,7 +26,7 @@ function TournamentCard({ tournament }: Props) {
         </div>
         <div className={`text-xl font-bold flex items-center space-x-2`}>
           {tournament.points}
-          {tournament.points === 2000 && <StarsIcon />}
+          <StarsIcon />
         </div>
       </div>
 

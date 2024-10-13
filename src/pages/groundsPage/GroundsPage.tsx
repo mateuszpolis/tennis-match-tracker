@@ -3,6 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import GroundsList from "./GroundsList";
 import AddGroundPage from "./addGroundPage/AddGroundPage";
 import GroundPage from "./groundPage/GroundPage";
+import PrivateRoute from "../../components/global/PrivateRoute";
+import { UserRole } from "../../models/User";
 
 function GroundsPage() {
   return (
@@ -13,9 +15,9 @@ function GroundsPage() {
         <Route
           path="/add"
           element={
-            // <PrivateRoute>
-            <AddGroundPage />
-            // </PrivateRoute>
+            <PrivateRoute checkRole={UserRole.Admin}>
+              <AddGroundPage />
+            </PrivateRoute>
           }
         />
       </Routes>

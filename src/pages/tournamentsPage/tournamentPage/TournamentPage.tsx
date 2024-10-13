@@ -8,12 +8,57 @@ import AddTournamentEditionPage from "./addTournamentEditionPage/AddTournamentEd
 import { Button } from "@mui/material";
 import TournamentEditionPage from "./tournamentEditionPage/TournamentEditionPage";
 import RecentTournamentEditions from "./RecentTournamentEditions";
+import { useAuth } from "../../../context/AuthContext";
+import { UserRole } from "../../../models/User";
+import { confirmAlert } from "react-confirm-alert";
 
 function TournamentPage() {
+  const { user, isAuthenticated } = useAuth();
+
   const { id } = useParams();
 
-  const { getTournament } = useTournament();
+  const { getTournament, deleteTournament } = useTournament();
   const [tournament, setTournament] = useState<Tournament | null>(null);
+
+  const removeTournament = async () => {
+    const toastId = toast.loading("Removing tournament edition...");
+    try {
+      await deleteTournament(tournament!.id);
+
+      toast.update(toastId, {
+        render: "Tournament edition removed successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate(`/tournaments`);
+    } catch (e: any) {
+      toast.update(toastId, {
+        render:
+          e.response.data.message || "Failed to remove tournament edition",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const showRemoveConfirmation = () => {
+    confirmAlert({
+      title: "Confirm to remove",
+      message: "Are you sure you want to remove this tournament edition?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => removeTournament(),
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
 
   const fetchTournament = async () => {
     try {
@@ -47,15 +92,26 @@ function TournamentPage() {
           <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
             {tournament.name}
           </h1>
-          <Button
-            variant="outlined"
-            color="success"
-            onClick={() => {
-              navigate(`create`);
-            }}
-          >
-            Create new edition
-          </Button>
+          {isAuthenticated && user?.role === UserRole.Admin && (
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => {
+                  navigate(`create`);
+                }}
+              >
+                Create new edition
+              </Button>
+              <Button
+                onClick={showRemoveConfirmation}
+                variant="outlined"
+                color="error"
+              >
+                Remove Tournament
+              </Button>
+            </div>
+          )}
         </div>
         <p className="text-lg text-gray-700 mb-2">
           {tournament.ground.city}, {tournament.ground.country}

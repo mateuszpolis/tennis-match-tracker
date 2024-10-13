@@ -131,9 +131,24 @@ function PlayerPage() {
       }}
     >
       <div className="bg-white bg-opacity-70 backdrop-blur-md p-4">
-        <h2 className="text-5xl font-bold mb-4 text-primary font-display uppercase">
-          {user.name} {user.surname}
-        </h2>
+        <div className="flex items-center space-x-2">
+          <h2 className="text-5xl font-bold mb-4 text-primary font-display uppercase">
+            {user.name} {user.surname}
+          </h2>
+          {playerInfo.playerRating !== 0 && (
+            <h2
+              className={`text-5xl font-bold mb-4 font-display uppercase ${
+                playerInfo.playerRating > 75
+                  ? "text-green-600"
+                  : playerInfo.playerRating > 50
+                  ? "text-yellow-600"
+                  : "text-red-600"
+              }`}
+            >
+              {playerInfo.playerRating}
+            </h2>
+          )}
+        </div>
         <p className="text-lg font-semibold">
           Active Since: {new Date(playerInfo.activeSince).toDateString()}
         </p>

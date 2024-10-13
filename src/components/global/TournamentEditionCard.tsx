@@ -62,7 +62,7 @@ function TournamentEditionCard({ tournamentEdition }: Props) {
         </h2>
         <div className={`text-xl font-bold flex items-center space-x-2`}>
           {tournamentEdition.tournament?.points}
-          {tournamentEdition.tournament?.points === 2000 && <StarsIcon />}
+          <StarsIcon />
         </div>
         <div className="flex items-center space-x-2">
           <CalendarToday />

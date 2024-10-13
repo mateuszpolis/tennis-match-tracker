@@ -6,9 +6,13 @@ import { useTennisGround } from "../../context/TennisGroundContext";
 import { TennisGround } from "../../models/TennisGround";
 import { toast } from "react-toastify";
 import GroundCard from "../../components/global/GroundCard";
+import { useAuth } from "../../context/AuthContext";
+import { UserRole } from "../../models/User";
 
 function GroundsList() {
   const navigate = useNavigate();
+
+  const { user, isAuthenticated } = useAuth();
 
   const { fetchGrounds } = useTennisGround();
   const [grounds, setGrounds] = useState<TennisGround[]>([]);
@@ -27,17 +31,19 @@ function GroundsList() {
 
   return (
     <div className="p-8">
-      <Button
-        size="small"
-        color="success"
-        variant="outlined"
-        onClick={() => {
-          navigate("add");
-        }}
-        endIcon={<PlusOne />}
-      >
-        Add new Tennis Ground
-      </Button>
+      {isAuthenticated && user?.role === UserRole.Admin && (
+        <Button
+          size="small"
+          color="success"
+          variant="outlined"
+          onClick={() => {
+            navigate("add");
+          }}
+          endIcon={<PlusOne />}
+        >
+          Add new Tennis Ground
+        </Button>
+      )}
       <h1 className="text-2xl font-bold uppercase text-primary">
         List of Tennis Grounds:
       </h1>

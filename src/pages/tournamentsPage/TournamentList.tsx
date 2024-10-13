@@ -6,9 +6,13 @@ import { useTournament } from "../../context/TournamentContext";
 import { Tournament } from "../../models/Tournament";
 import { toast } from "react-toastify";
 import TournamentCard from "../../components/global/TournamentCard";
+import { useAuth } from "../../context/AuthContext";
+import { UserRole } from "../../models/User";
 
 function TournamentList() {
   const navigate = useNavigate();
+
+  const { user, isAuthenticated } = useAuth();
 
   const { fetchTournaments } = useTournament();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -27,17 +31,19 @@ function TournamentList() {
 
   return (
     <div className="p-8">
-      <Button
-        size="small"
-        color="success"
-        variant="outlined"
-        onClick={() => {
-          navigate("add");
-        }}
-        endIcon={<PlusOne />}
-      >
-        Add new Tournament
-      </Button>
+      {isAuthenticated && user?.role === UserRole.Admin && (
+        <Button
+          size="small"
+          color="success"
+          variant="outlined"
+          onClick={() => {
+            navigate("add");
+          }}
+          endIcon={<PlusOne />}
+        >
+          Add new Tournament
+        </Button>
+      )}
       <h1 className="text-2xl font-bold uppercase text-primary">
         List of Tournaments:
       </h1>

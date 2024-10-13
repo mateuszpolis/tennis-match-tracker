@@ -16,6 +16,8 @@ interface MatchContextType {
     firstPlayerStats?: PlayerStats,
     secondPlayerStats?: PlayerStats
   ) => Promise<void>;
+  getMatchesForUser: (userId: number) => Promise<Match[]>;
+  queryMatches: (query: string) => Promise<Match[]>;
 }
 
 const MatchContext = createContext<MatchContextType | undefined>(undefined);
@@ -76,12 +78,37 @@ const MatchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     await axios(config);
   };
 
+  const getMatchesForUser = async (userId: number): Promise<Match[]> => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/matches/user/${userId}`,
+    };
+
+    const response = await axios(config);
+    return response.data;
+  };
+
+  const queryMatches = async (query: string): Promise<Match[]> => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/matches/query`,
+      params: {
+        query,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data;
+  };
+
   return (
     <MatchContext.Provider
       value={{
         getMatch,
         createMatch,
+        queryMatches,
         updateMatch,
+        getMatchesForUser,
       }}
     >
       {children}
