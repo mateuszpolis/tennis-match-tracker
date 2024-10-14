@@ -20,7 +20,7 @@ function ForgotPasswordForm(props: ForgotPasswordFormProps) {
   const onSubmit = async (data: any) => {
     try {
       await forgotPassword(data.email);
-      toast.success("Link do zresetowania hasła został wysłany!");
+      toast.success("Email with password reset instructions sent");
       props.setSubmitted(true);
     } catch (error: Error | any) {
       console.error("Forgot password failed", error);
@@ -38,7 +38,7 @@ function ForgotPasswordForm(props: ForgotPasswordFormProps) {
         control={control}
         defaultValue=""
         rules={{
-          required: "Email jest wymagany",
+          required: "Email is required",
           pattern: {
             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
             message: "Niepoprawny adres email",
@@ -54,7 +54,7 @@ function ForgotPasswordForm(props: ForgotPasswordFormProps) {
         )}
       />
       <Button type="submit" variant="contained" color="primary">
-        Zresetuj hasło
+        Reset password
       </Button>
     </form>
   );

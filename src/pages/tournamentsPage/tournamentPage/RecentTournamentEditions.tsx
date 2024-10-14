@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import TournamentEditionCard from "../../../components/global/TournamentEditionCard";
 import { Tournament } from "../../../models/Tournament";
 
@@ -9,7 +9,7 @@ type Props = {
 
 function RecentTournamentEditions({ tournament }: Props) {
   return (
-    <div className="">
+    <div className="">      
       <div className="mt-8 bg-white bg-opacity-70 backdrop-blur-md p-4">
         <h2 className="text-2xl font-bold mb-2 text-primary">Ground</h2>
         <Link

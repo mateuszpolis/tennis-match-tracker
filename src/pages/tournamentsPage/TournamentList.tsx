@@ -1,5 +1,5 @@
-import { PlusOne } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Add, PlusOne } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTournament } from "../../context/TournamentContext";
@@ -35,11 +35,10 @@ function TournamentList() {
         <Button
           size="small"
           color="success"
-          variant="outlined"
           onClick={() => {
             navigate("add");
           }}
-          endIcon={<PlusOne />}
+          endIcon={<Add />}
         >
           Add new Tournament
         </Button>

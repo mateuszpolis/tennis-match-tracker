@@ -158,7 +158,7 @@ function PlayerPage() {
           Win Percentage: {winPercentage.toFixed(2)}%
         </p>
       </div>
-      <div className="bg-white bg-opacity-70 backdrop-blur-md p-4 flex items-start justify-between space-x-5">
+      <div className="bg-white bg-opacity-70 backdrop-blur-md p-4 flex items-start justify-between space-x-5 md:flex-row flex-col">
         <div className="w-full">
           <h3 className="text-2xl font-bold font-display">
             Performance Over the Years

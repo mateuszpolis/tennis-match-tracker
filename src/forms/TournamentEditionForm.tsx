@@ -63,7 +63,7 @@ function TournamentEditionForm({
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex flex-col space-y-2"
+      className="flex flex-col space-y-2 w-full"
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>

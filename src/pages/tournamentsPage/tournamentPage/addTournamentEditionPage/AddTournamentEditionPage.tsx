@@ -4,6 +4,8 @@ import { useTournament } from "../../../../context/TournamentContext";
 import { TournamentEditionCreationAttributes } from "../../../../models/TournamentEdition";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { IconButton } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 
 type Props = {
   tournamentId: number;
@@ -31,7 +33,10 @@ function AddTournamentEditionPage({ tournamentId }: Props) {
   }, []);
 
   return (
-    <div className="mt-10 p-2 bg-white bg-opacity-80 backdrop-blur-md">
+    <div className="mt-10 p-2 bg-white bg-opacity-80 backdrop-blur-md flex flex-col items-start space-y-3">
+      <IconButton onClick={() => navigate(`/tournaments/${tournamentId}`)}>
+        <ArrowBack />
+      </IconButton>
       <TournamentEditionForm
         onSubmit={submitForm}
         tournamentId={tournamentId}

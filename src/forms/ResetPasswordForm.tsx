@@ -24,7 +24,7 @@ function ResetPasswordForm(props: Props) {
     try {
       await resetPassword(data.password, props.token);
       props.setSubmitted(true);
-      toast.success("Hasło zostało zresetowane!");
+      toast.success("Password reset successfully");
     } catch (error: Error | any) {
       console.error("Reset password failed", error);
       toast.error(error.message);
@@ -41,18 +41,18 @@ function ResetPasswordForm(props: Props) {
         control={control}
         defaultValue=""
         rules={{
-          required: "Hasło jest wymagane",
+          required: "Password is required",
           pattern: {
             value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
             message:
-              "Hasło musi zawierać co najmniej 8 znaków, jedną cyfrę i jeden znak specjalny",
+              "Password must contain at least 8 characters, including uppercase, lowercase, and numbers",
           },
         }}
         render={({ field }) => (
           <TextField
             {...field}
             type="password"
-            label="Nowe Hasło"
+            label="New password"
             error={!!errors.password}
             helperText={errors.password ? String(errors.password.message) : ""}
           />
@@ -64,14 +64,14 @@ function ResetPasswordForm(props: Props) {
         control={control}
         defaultValue=""
         rules={{
-          required: "Powtórzenie hasła jest wymagane",
-          validate: (value) => value === password || "Hasła muszą się zgadzać",
+          required: "Password confirmation is required",
+          validate: (value) => value === password || "Passwords do not match",
         }}
         render={({ field }) => (
           <TextField
             {...field}
             type="password"
-            label="Powtórz hasło"
+            label="Confirm new password"
             error={!!errors.confirmPassword}
             helperText={
               errors.confirmPassword
@@ -83,7 +83,7 @@ function ResetPasswordForm(props: Props) {
       />
 
       <Button type="submit" variant="contained" color="primary">
-        Ustaw nowe hasło
+        Reset Password
       </Button>
     </form>
   );

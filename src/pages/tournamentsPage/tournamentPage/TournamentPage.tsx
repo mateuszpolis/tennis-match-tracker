@@ -3,14 +3,15 @@ import { Tournament } from "../../../models/Tournament";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { useTournament } from "../../../context/TournamentContext";
 import { toast } from "react-toastify";
-import { CalendarToday } from "@mui/icons-material";
+import { Add, CalendarToday, Delete } from "@mui/icons-material";
 import AddTournamentEditionPage from "./addTournamentEditionPage/AddTournamentEditionPage";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import TournamentEditionPage from "./tournamentEditionPage/TournamentEditionPage";
 import RecentTournamentEditions from "./RecentTournamentEditions";
 import { useAuth } from "../../../context/AuthContext";
 import { UserRole } from "../../../models/User";
 import { confirmAlert } from "react-confirm-alert";
+import LoadingScreen from "../../../components/global/LoadingScreen";
 
 function TournamentPage() {
   const { user, isAuthenticated } = useAuth();
@@ -77,7 +78,7 @@ function TournamentPage() {
   }, []);
 
   if (!tournament) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
@@ -88,28 +89,23 @@ function TournamentPage() {
       }}
     >
       <div className="space-y-3 bg-white bg-opacity-70 backdrop-blur-md p-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between md:flex-row flex-col">
           <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
             {tournament.name}
           </h1>
           {isAuthenticated && user?.role === UserRole.Admin && (
             <div className="flex items-center space-x-2">
-              <Button
-                variant="outlined"
+              <IconButton
                 color="success"
                 onClick={() => {
                   navigate(`create`);
                 }}
               >
-                Create new edition
-              </Button>
-              <Button
-                onClick={showRemoveConfirmation}
-                variant="outlined"
-                color="error"
-              >
-                Remove Tournament
-              </Button>
+                <Add sx={{ fontSize: 40 }} />
+              </IconButton>
+              <IconButton onClick={showRemoveConfirmation} color="error">
+                <Delete sx={{ fontSize: 40 }} />
+              </IconButton>
             </div>
           )}
         </div>

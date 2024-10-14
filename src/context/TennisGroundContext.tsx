@@ -16,6 +16,7 @@ interface TennisGroundContextType {
   fetchGrounds: () => Promise<TennisGround[]>;
   getGround: (id: number) => Promise<TennisGround>;
   getGroundsByName: (name: string) => Promise<TennisGround[]>;
+  queryGrounds: (query: string) => Promise<TennisGround[]>;
 }
 
 const TennisGroundContext = createContext<TennisGroundContextType | undefined>(
@@ -101,6 +102,19 @@ const TennisGroundProvider: React.FC<{ children: ReactNode }> = ({
     return response.data;
   };
 
+  const queryGrounds = async (query: string): Promise<TennisGround[]> => {
+    const config = {
+      method: "get",
+      url: `${apiUrl}/api/grounds/query`,
+      params: {
+        query,
+      },
+    };
+
+    const response = await axios(config);
+    return response.data;
+  };
+
   return (
     <TennisGroundContext.Provider
       value={{
@@ -110,6 +124,7 @@ const TennisGroundProvider: React.FC<{ children: ReactNode }> = ({
         editGround,
         deleteGround,
         fetchGrounds,
+        queryGrounds,
       }}
     >
       {children}

@@ -24,7 +24,7 @@ function MatchInfo({ match, lastMatches }: Props) {
         backgroundImage: `url(/match_page_background.webp)`,
       }}
     >
-      <div className="flex justify-between items-start bg-white bg-opacity-80 backdrop-blur-sm p-5">
+      <div className="flex justify-between items-start bg-white bg-opacity-80 backdrop-blur-sm p-5 md:flex-row flex-col">
         <div>
           {match.tournamentEdition ? (
             <Link

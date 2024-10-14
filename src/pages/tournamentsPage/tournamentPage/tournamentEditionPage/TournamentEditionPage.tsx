@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TournamentEdition } from "../../../../models/TournamentEdition";
 import { useTournament } from "../../../../context/TournamentContext";
 import { toast } from "react-toastify";
-import { CalendarToday } from "@mui/icons-material";
+import { ArrowBack, CalendarToday, Delete } from "@mui/icons-material";
 import { useAuth } from "../../../../context/AuthContext";
 import TournamentTable from "./TournamentTable";
 import TournamentMatches from "./TournamentMatches";
@@ -11,6 +11,8 @@ import TournamentBracket from "./TournamentBracket";
 import { UserRole } from "../../../../models/User";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import LoadingScreen from "../../../../components/global/LoadingScreen";
+import { IconButton } from "@mui/material";
 
 type Props = {
   tournamentId: number;
@@ -133,7 +135,7 @@ function TournamentEditionPage({ tournamentId }: Props) {
   const { user, isAuthenticated } = useAuth();
 
   if (!tournamentEdition) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   const isUpcomingEvent = new Date(tournamentEdition.startDate) >= new Date();
@@ -141,6 +143,13 @@ function TournamentEditionPage({ tournamentId }: Props) {
   return (
     <div className="mt-10">
       <div className="space-y-2 bg-white bg-opacity-70 backdrop-blur-md p-4 mb-10">
+        <IconButton
+          onClick={() =>
+            navigate(`/tournaments/${tournamentEdition.tournament?.id}`)
+          }
+        >
+          <ArrowBack />
+        </IconButton>
         <div className="flex items-start justify-between">
           <h2 className="text-2xl font-bold">
             {tournamentEdition.editionName || ""}{" "}
@@ -167,12 +176,14 @@ function TournamentEditionPage({ tournamentId }: Props) {
                       Close registration
                     </button>
 
-                    <button
-                      onClick={showRemoveConfirmation}
-                      className="p-4 text-background rounded-md bg-red-500 hover:bg-red-700 active:bg-red-600 w-fit hover:text-background font-semibold uppercase transition-all"
-                    >
-                      Remove Tournament Edition
-                    </button>
+                    {isAuthenticated && user?.role === UserRole.Admin && (
+                      <IconButton
+                        onClick={showRemoveConfirmation}
+                        color="error"
+                      >
+                        <Delete sx={{ fontSize: 40 }} />
+                      </IconButton>
+                    )}
                   </>
                 )}
               </div>

@@ -1,4 +1,4 @@
-import { PlusOne } from "@mui/icons-material";
+import { Add, PlusOne } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,11 +35,10 @@ function GroundsList() {
         <Button
           size="small"
           color="success"
-          variant="outlined"
           onClick={() => {
             navigate("add");
           }}
-          endIcon={<PlusOne />}
+          endIcon={<Add />}
         >
           Add new Tennis Ground
         </Button>

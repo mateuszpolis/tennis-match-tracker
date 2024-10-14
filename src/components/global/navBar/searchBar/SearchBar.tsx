@@ -1,20 +1,20 @@
-import { Search, SearchOutlined } from "@mui/icons-material";
-import { IconButton, TextField } from "@mui/material";
+import { SearchOutlined } from "@mui/icons-material";
+import { TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useDebounce from "../../../../hooks/useDebounce";
 import { Tournament } from "../../../../models/Tournament";
 import { TournamentEdition } from "../../../../models/TournamentEdition";
 import { useTournament } from "../../../../context/TournamentContext";
 import { Match } from "../../../../models/Match";
 import { useMatch } from "../../../../context/MatchContext";
+import { User } from "../../../../models/User";
+import { useUser } from "../../../../context/UserContext";
+import { TennisGround } from "../../../../models/TennisGround";
+import { useTennisGround } from "../../../../context/TennisGroundContext";
 
 function SearchBar() {
-  const width = window.innerWidth;
-
-  const navigate = useNavigate();
-
   const { control } = useForm();
   const searchBarRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +31,12 @@ function SearchBar() {
   const [matches, setMatches] = useState<Match[]>([]);
   const { queryMatches } = useMatch();
 
+  const [players, setPlayers] = useState<User[]>([]);
+  const { getUsersByQuery } = useUser();
+
+  const [grounds, setGrounds] = useState<TennisGround[]>([]);
+  const { queryGrounds } = useTennisGround();
+
   useEffect(() => {
     const fetchTournaments = async () => {
       const data = await queryTournaments(search);
@@ -39,13 +45,35 @@ function SearchBar() {
     };
 
     const fetchMatches = async () => {
-      const data = await queryMatches(search);
-      setMatches(data);
+      try {
+        const data = await queryMatches(search);
+        setMatches(data);
+      } catch (e: any) {
+        console.error(e);
+      }
+    };
+
+    const fetchPlayers = async () => {
+      try {
+        setPlayers(await getUsersByQuery(search, 5));
+      } catch (e: any) {
+        console.error(e);
+      }
+    };
+
+    const fetchGrounds = async () => {
+      try {
+        setGrounds(await queryGrounds(search));
+      } catch (e: any) {
+        console.error(e);
+      }
     };
 
     if (debouncedQuery !== "") {
       fetchTournaments();
       fetchMatches();
+      fetchPlayers();
+      fetchGrounds();
     }
   }, [debouncedQuery]);
 
@@ -77,7 +105,6 @@ function SearchBar() {
           className="flex items-center w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            navigate(`/szukaj?search=${search}`);
           }}
         >
           <Controller
@@ -95,28 +122,24 @@ function SearchBar() {
               />
             )}
           />
-          <IconButton color="primary" type="submit" form="search">
-            <SearchOutlined sx={{ fontSize: width <= 768 ? 25 : 40 }} />
-          </IconButton>
         </form>
 
         {isFocused &&
           (tournamentEditions.length !== 0 ||
             tournaments.length !== 0 ||
-            matches.length !== 0) && (
-            <div className="border border-gray-300 rounded-sm w-full mt-2 p-2 bg-white drop-shadow-lg absolute top-full z-10">
+            matches.length !== 0 ||
+            players.length !== 0 ||
+            grounds.length === 0) && (
+            <div className="border border-gray-300 rounded-sm w-full mt-2 p-2 bg-white bg-opacity-80 backdrop-blur-md drop-shadow-lg absolute top-full z-10 max-h-[80vh] overflow-y-scroll">
               <div className="flex items-center justify-between">
                 <p className="p-2 text-sm text-gray-500">Tournaments:</p>
-                <Link
-                  to={`/search?search=${search}&type=tournament`}
-                  onClick={() => setIsFocused(false)}
-                  className="p-2 text-sm text-primary font-semibold flex items-center space-x-1 hover:bg-primary hover:text-white rounded-md transition-all"
-                >
-                  <span>Search for Tournaments</span>
-                  <Search />
-                </Link>
               </div>
               <ul>
+                {tournaments.length === 0 && (
+                  <p className="pl-4 p-2 text-sm text-gray-500">
+                    No tournaments found
+                  </p>
+                )}
                 {tournaments.map((tournament, index) => (
                   <li
                     key={index}
@@ -125,10 +148,12 @@ function SearchBar() {
                     <Link
                       to={`/tournaments/${tournament.id}`}
                       onClick={() => setIsFocused(false)}
-                      className="w-full h-full"
+                      className="w-full h-full flex items-center space-x-2"
                     >
                       <SearchOutlined />
-                      <span className="ml-2">{tournament.name}</span>
+                      <div>
+                        <span className="ml-2">{tournament.name}</span>
+                      </div>
                     </Link>
                   </li>
                 ))}
@@ -137,16 +162,13 @@ function SearchBar() {
                 <p className="p-2 text-sm text-gray-500">
                   Tournament editions:
                 </p>
-                <Link
-                  to={`/search?search=${search}&type=tournament-edition`}
-                  onClick={() => setIsFocused(false)}
-                  className="p-2 text-sm text-primary font-semibold flex items-center space-x-1 hover:bg-primary hover:text-white rounded-md transition-all"
-                >
-                  <span>Search for Tournament Editions</span>
-                  <Search />
-                </Link>
               </div>
               <ul>
+                {tournamentEditions.length === 0 && (
+                  <p className="pl-4 p-2 text-sm text-gray-500">
+                    No tournament editions found
+                  </p>
+                )}
                 {tournamentEditions.map((tournamentEdition, index) => (
                   <li
                     key={index}
@@ -155,30 +177,58 @@ function SearchBar() {
                     <Link
                       to={`/tournaments/${tournamentEdition.tournamentId}/edition/${tournamentEdition.year}`}
                       onClick={() => setIsFocused(false)}
-                      className="w-full h-full"
+                      className="w-full h-full flex items-center space-x-2"
                     >
                       <SearchOutlined />
-                      <span className="ml-2">
-                        {tournamentEdition.editionName}{" "}
-                        {tournamentEdition.tournament?.name}{" "}
-                        {tournamentEdition.year}
-                      </span>
+                      <div>
+                        <span className="ml-2">
+                          {tournamentEdition.editionName}{" "}
+                          {tournamentEdition.tournament?.name}{" "}
+                          {tournamentEdition.year}
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-center justify-between">
+                <p className="p-2 text-sm text-gray-500">Players:</p>
+              </div>
+              <ul>
+                {players.length === 0 && (
+                  <p className="pl-4 p-2 text-sm text-gray-500">
+                    No players found
+                  </p>
+                )}
+                {players.map((player, index) => (
+                  <li
+                    key={index}
+                    className="p-2 border-b last:border-b-0 hover:bg-gray-100"
+                  >
+                    <Link
+                      to={`/player/${player.id}`}
+                      onClick={() => setIsFocused(false)}
+                      className="w-full h-full flex items-center space-x-2"
+                    >
+                      <SearchOutlined />
+                      <div className="text-sm flex items-center space-x-1 divide-x divide-primary">
+                        <span className="ml-2 p-1">
+                          {player.name + " " + player.surname}
+                        </span>
+                      </div>
                     </Link>
                   </li>
                 ))}
               </ul>
               <div className="flex items-center justify-between">
                 <p className="p-2 text-sm text-gray-500">Matches:</p>
-                <Link
-                  to={`/search?search=${search}&type=match`}
-                  onClick={() => setIsFocused(false)}
-                  className="p-2 text-sm text-primary font-semibold flex items-center space-x-1 hover:bg-primary hover:text-white rounded-md transition-all"
-                >
-                  <span>Search for Matches</span>
-                  <Search />
-                </Link>
               </div>
               <ul>
+                {matches.length === 0 && (
+                  <p className="pl-4 p-2 text-sm text-gray-500">
+                    No matches found
+                  </p>
+                )}
                 {matches.map((match, index) => (
                   <li
                     key={index}
@@ -187,11 +237,11 @@ function SearchBar() {
                     <Link
                       to={`/match/${match.id}`}
                       onClick={() => setIsFocused(false)}
-                      className="w-full h-full"
+                      className="w-full h-full flex items-center space-x-2"
                     >
                       <SearchOutlined />
-                      <div>
-                        <span className="ml-2">
+                      <div className="text-sm flex items-center space-x-1 divide-x divide-primary">
+                        <span className="ml-2 p-1">
                           {match.firstPlayer.name +
                             " " +
                             match.firstPlayer.surname}{" "}
@@ -200,16 +250,50 @@ function SearchBar() {
                             " " +
                             match.secondPlayer.surname}
                         </span>
-                        <span>
-                          {match.firstPlayerScore} - {match.secondPlayerScore}
-                        </span>
-                        <span>
+                        {match.firstPlayerScore === 0 &&
+                        match.secondPlayerScore === 0 ? (
+                          <span className="p-1">Not played yet</span>
+                        ) : (
+                          <span className="p-1">
+                            {match.firstPlayerScore} - {match.secondPlayerScore}
+                          </span>
+                        )}
+                        <span className="p-1">
                           {new Date(match.date).toLocaleDateString("pl-PL")}
                         </span>
-                        <span>
-                          {match.tournamentEdition?.tournament?.name}{" "}
-                          {match.tournamentEdition?.year}
-                        </span>
+                        {match.tournamentEdition?.tournament?.name && (
+                          <span className="p-1">
+                            {match.tournamentEdition?.tournament?.name}{" "}
+                            {match.tournamentEdition?.year}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-center justify-between">
+                <p className="p-2 text-sm text-gray-500">Tennis Grounds:</p>
+              </div>
+              <ul>
+                {grounds.length === 0 && (
+                  <p className="pl-4 p-2 text-sm text-gray-500">
+                    No tennis grounds found
+                  </p>
+                )}
+                {grounds.map((ground, index) => (
+                  <li
+                    key={index}
+                    className="p-2 border-b last:border-b-0 hover:bg-gray-100"
+                  >
+                    <Link
+                      to={`/tennis-grounds/${ground.id}`}
+                      onClick={() => setIsFocused(false)}
+                      className="w-full h-full flex items-center space-x-2"
+                    >
+                      <SearchOutlined />
+                      <div>
+                        <span className="ml-2">{ground.name}</span>
                       </div>
                     </Link>
                   </li>

@@ -13,7 +13,7 @@ function HomePage() {
     try {
       setTournaments(
         await getTournamentEditions({
-          startDateAfter: new Date(),
+          endDateAfter: new Date(),
           isFinished: "no"
         })
       );

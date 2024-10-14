@@ -68,7 +68,7 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({
                     <Link
                       to={`/match/${match.id}`}
                       key={index}
-                      className="match bg-white shadow rounded flex flex-col items-center justify-center divide-y p-2 hover:shadow-primary"
+                      className="match bg-white shadow rounded flex flex-col items-center justify-center divide-y p-2 hover:shadow-primary w-full"
                     >
                       <div
                         className={`flex items-center w-full p-1

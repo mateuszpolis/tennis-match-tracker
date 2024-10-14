@@ -31,7 +31,7 @@ interface TournamentContextType {
     surface?: Surface;
     sortByStartDate?: "asc" | "desc";
     sortByEndDate?: "asc" | "desc";
-    startDateAfter?: Date;
+    endDateAfter?: Date;
     isFinished?: "yes" | "no" | "all";
   }) => Promise<TournamentEdition[]>;
   getTournamentEdition: (

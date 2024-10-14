@@ -4,9 +4,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTennisGround } from "../../../context/TennisGroundContext";
 import { TennisGround } from "../../../models/TennisGround";
 import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
+import LoadingScreen from "../../../components/global/LoadingScreen";
+import { IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import { useAuth } from "../../../context/AuthContext";
+import { UserRole } from "../../../models/User";
 
 function GroundPage() {
   const { id } = useParams();
+
+  const { user, isAuthenticated } = useAuth();
 
   const { getGround } = useTennisGround();
   const [ground, setGround] = useState<TennisGround | null>(null);
@@ -29,8 +37,50 @@ function GroundPage() {
     getTennisGround();
   }, [id, navigate]);
 
+  const { deleteGround } = useTennisGround();
+
+  const removeGround = async () => {
+    const toastId = toast.loading("Removing tournament edition...");
+    try {
+      await deleteGround(ground!.id);
+
+      toast.update(toastId, {
+        render: "Tournament edition removed successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate(`/tennis-grounds`);
+    } catch (e: any) {
+      toast.update(toastId, {
+        render:
+          e.response.data.message || "Failed to remove tournament edition",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const showRemoveConfirmation = () => {
+    confirmAlert({
+      title: "Confirm to remove",
+      message: "Are you sure you want to remove this tournament edition?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => removeGround(),
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
+
   if (!ground) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   const backgroundUrl = `/tennis_ground_${ground.surface.toLowerCase()}.webp`;
@@ -43,9 +93,16 @@ function GroundPage() {
       }}
     >
       <div className="bg-white bg-opacity-70 backdrop-blur-md p-4">
-        <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
-          {ground.name}
-        </h1>
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <h1 className="text-6xl font-bold mb-4 drop-shadow-xl font-display text-primary">
+            {ground.name}
+          </h1>
+          {isAuthenticated && user?.role === UserRole.Admin && (
+            <IconButton onClick={showRemoveConfirmation} color="error">
+              <Delete sx={{ fontSize: 40 }} />
+            </IconButton>
+          )}
+        </div>
 
         <p className="mb-2">{ground.description}</p>
         <p className="mb-2">

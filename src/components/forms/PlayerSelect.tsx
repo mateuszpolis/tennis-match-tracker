@@ -46,7 +46,7 @@ const PlayerSelect = ({
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        setUsers(await getUsersByQuery(debouncedQuery || ""));
+        setUsers(await getUsersByQuery(debouncedQuery || "", 5));
       } catch (e: any) {
         toast.error(e.response.data.message || "Error occurred");
       }

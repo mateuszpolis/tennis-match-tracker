@@ -4,7 +4,7 @@ import { User } from "../models/User";
 import { withAuth } from "../middleware/withAuth";
 
 interface UserContextType {
-  getUsersByQuery: (query: string) => Promise<User[]>;
+  getUsersByQuery: (query: string, limit: number) => Promise<User[]>;
   getUserById: (id: number) => Promise<User>;
   getRanking: () => Promise<User[]>;
   getProfile: (id: number) => Promise<User>;
@@ -23,10 +23,17 @@ export const useUser = () => {
 const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const getUsersByQuery = async (query: string): Promise<User[]> => {
+  const getUsersByQuery = async (
+    query: string,
+    limit: number
+  ): Promise<User[]> => {
     const config = await withAuth({
       method: "get",
-      url: `${apiUrl}/api/users/search?query=${query}`,
+      url: `${apiUrl}/api/users/search`,
+      params: {
+        query,
+        limit,
+      },
     });
 
     const response = await axios(config);

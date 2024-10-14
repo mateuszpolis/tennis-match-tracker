@@ -96,10 +96,11 @@ const MatchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         query,
       },
     };
-
+  
     const response = await axios(config);
     return response.data;
   };
+  
 
   return (
     <MatchContext.Provider
