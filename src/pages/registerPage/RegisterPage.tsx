@@ -4,7 +4,7 @@ import RegisterForm from "../../forms/RegisterForm";
 
 function RegisterPage() {
   useEffect(() => {
-    document.title = `Eltimex - Rejestracja`;
+    document.title = `TTM - Register`;
   }, []);
 
   return (

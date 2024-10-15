@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import TournamentList from "./TournamentList";
 import PrivateRoute from "../../components/global/PrivateRoute";
@@ -7,6 +7,10 @@ import TournamentPage from "./tournamentPage/TournamentPage";
 import { UserRole } from "../../models/User";
 
 function TournamentsPage() {
+  useEffect(() => {
+    document.title = `TTM - Tournaments`;
+  }, []);
+
   return (
     <div className="">
       <Routes>

@@ -15,7 +15,7 @@ function LoginPage() {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    document.title = `Eltimex - Logowanie`;
+    document.title = `TTM - Login`;
   }, []);
 
   const cookieConsent = Cookies.get("zgoda_na_cookies");

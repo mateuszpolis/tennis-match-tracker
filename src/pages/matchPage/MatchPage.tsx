@@ -36,6 +36,12 @@ function MatchPage() {
     fetchMatch();
   }, [getMatch, id, navigate]);
 
+  useEffect(() => {
+    document.title = `TTM - ${
+      match?.firstPlayer?.name + " " + match?.firstPlayer.surname
+    } vs ${match?.secondPlayer?.name + " " + match?.secondPlayer.surname}`;
+  }, []);
+
   if (!match) return <div>Match not found</div>;
 
   return (

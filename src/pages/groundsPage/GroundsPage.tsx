@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import GroundsList from "./GroundsList";
 import AddGroundPage from "./addGroundPage/AddGroundPage";
@@ -7,6 +7,10 @@ import PrivateRoute from "../../components/global/PrivateRoute";
 import { UserRole } from "../../models/User";
 
 function GroundsPage() {
+  useEffect(() => {
+    document.title = `TTM - Grounds`;
+  }, []);
+
   return (
     <div className="">
       <Routes>
@@ -19,7 +23,7 @@ function GroundsPage() {
               <AddGroundPage />
             </PrivateRoute>
           }
-        />        
+        />
       </Routes>
     </div>
   );

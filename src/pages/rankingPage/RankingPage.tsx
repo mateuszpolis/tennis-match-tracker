@@ -19,6 +19,10 @@ function RankingPage() {
     fetchRanking();
   }, []);
 
+  useEffect(() => {
+    document.title = `TTM - Ranking`;
+  }, []);
+
   return (
     <div
       className="min-h-[80vh] p-8"

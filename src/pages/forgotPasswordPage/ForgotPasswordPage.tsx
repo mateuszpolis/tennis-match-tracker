@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ForgotPasswordForm from "../../forms/ForgotPasswordForm";
 
 function ForgotPasswordPage() {
   const [submitted, setSubmitted] = React.useState(false);
+
+  useEffect(() => {
+    document.title = `TTM - Forgot Password`;
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center">

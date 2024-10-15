@@ -9,6 +9,10 @@ function HomePage() {
   const { getTournamentEditions } = useTournament();
   const [tournaments, setTournaments] = useState<TournamentEdition[]>([]);
 
+  useEffect(() => {
+    document.title = `TTM - Home`;
+  }, []);
+
   const fetchUpcomingTournaments = async () => {
     try {
       setTournaments(

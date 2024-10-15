@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import ResetPasswordForm from "../../forms/ResetPasswordForm";
 
@@ -6,6 +6,10 @@ function ResetPasswordPage() {
   const { token } = useParams<{ token: string }>();
 
   const [submitted, setSubmitted] = React.useState(false);
+  
+  useEffect(() => {
+    document.title = `TTM - Reset Password`;
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center">

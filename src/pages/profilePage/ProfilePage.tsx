@@ -33,6 +33,10 @@ function ProfilePage() {
     fetchMatches();
   }, []);
 
+  useEffect(() => {
+    document.title = `TTM - Profile`;
+  }, []);
+
   const navigate = useNavigate();
 
   return (

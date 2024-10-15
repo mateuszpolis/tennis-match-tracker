@@ -9,6 +9,10 @@ function ConfirmEmailPage() {
   const { confirmEmail } = useAuth();
   const [confirmed, setConfirmed] = React.useState(false);
 
+  useEffect(() => {
+    document.title = `TTM - Confirm Email`;
+  }, []);
+
   const confirmEmailHandler = async () => {
     try {
       await confirmEmail(token!);

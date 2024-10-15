@@ -57,11 +57,16 @@ function PlayerPage() {
     fetchUser();
   }, [getProfile, id]);
 
+  useEffect(() => {
+    document.title = `TTM - ${user?.name} ${user?.surname}`;
+  }, []);
+  
   if (!user) {
     return <div className="p-4 text-center">No user info available.</div>;
   }
 
   const { playerInfo } = user;
+
 
   if (!playerInfo) {
     return <div className="p-4 text-center">No player info available.</div>;
@@ -122,7 +127,7 @@ function PlayerPage() {
       },
     ],
   };
-
+    
   return (
     <div
       className="p-8 w-full space-y-10"
