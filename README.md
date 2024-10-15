@@ -10,21 +10,31 @@ This application helps you track tennis matches. This guide will show you how to
 
 1. **Clone the repository:**
 
-  ```sh
-  git clone https://github.com/mateuszpolis/tennis-match-tracker.git
-  cd tennis-match-tracker
-  ```
+```sh
+git clone https://github.com/mateuszpolis/tennis-match-tracker.git
+cd tennis-match-tracker
+```
 
-2. **Start the application:**
+2. **Environment variables:**
 
-  ```sh
-  docker-compose up
-  ```
+Copy the `.env.dist` file to `.env`:
 
-3. **Access the application:**
-  
+```sh
+cp .env.dist .env
+```
+
+Update the `.env` according to your needs. (The default values will work for the development environment.)
+
+3. **Start the application:**
+
+```sh
+docker-compose up
+```
+
+4. **Access the application:**
+
 Open your browser and go to [http://localhost:3000](http://localhost:3000).
 
-4. **Bakcend API:**
+5. **Bakcend API:**
 
-The frontend application relies on the backend API. The API and the guide is available at [API](https://github.com/mateuszpolis/tennis-match-tracker-API.git).
+The frontend application relies on the backend API. The API and the guide is available at [API](https://github.com/mateuszpolis/tennis-match-tracker-API.git)
