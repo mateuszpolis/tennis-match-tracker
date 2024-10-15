@@ -4,6 +4,7 @@ import { TextField, Button, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TournamentEditionCreationAttributes } from "../models/TournamentEdition";
+import { format } from "date-fns";
 
 interface TournamentEditionFormProps {
   edition?: TournamentEditionCreationAttributes;
@@ -17,6 +18,7 @@ function TournamentEditionForm({
   onSubmit,
 }: TournamentEditionFormProps) {
   const {
+    reset,
     handleSubmit,
     control,
     formState: { errors },
@@ -24,11 +26,23 @@ function TournamentEditionForm({
     defaultValues: {
       tournamentId: tournamentId,
       editionName: edition?.editionName || "",
-      startDate: edition?.startDate || new Date(),
-      endDate: edition?.endDate || new Date(),
+      startDate: new Date(edition?.startDate!) || new Date(),
+      endDate: new Date(edition?.endDate!) || new Date(),
       maximumNumberOfContestants: edition?.maximumNumberOfContestants || 0,
     },
   });
+
+  React.useEffect(() => {
+    if (edition) {
+      reset({
+        tournamentId: tournamentId,
+        editionName: edition.editionName,
+        startDate: new Date(format(edition.startDate, "yyyy-MM-dd")),
+        endDate: new Date(format(edition.endDate, "yyyy-MM-dd")),
+        maximumNumberOfContestants: edition.maximumNumberOfContestants,
+      });
+    }
+  }, [edition, reset, tournamentId]);
 
   const navigate = useNavigate();
 

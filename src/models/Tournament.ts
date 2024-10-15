@@ -7,6 +7,7 @@ export type Tournament = {
   points: number;
   surface: Surface;
   ground: TennisGround;
+  tennisGroundId: number;
   createdAt: Date;
   editedAt: Date;
   editions?: TournamentEdition[];

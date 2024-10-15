@@ -129,7 +129,7 @@ function SearchBar() {
             tournaments.length !== 0 ||
             matches.length !== 0 ||
             players.length !== 0 ||
-            grounds.length === 0) && (
+            grounds.length !== 0) && (
             <div className="border border-gray-300 rounded-sm w-full mt-2 p-2 bg-white bg-opacity-80 backdrop-blur-md drop-shadow-lg absolute top-full z-10 max-h-[80vh] overflow-y-scroll">
               <div className="flex items-center justify-between">
                 <p className="p-2 text-sm text-gray-500">Tournaments:</p>

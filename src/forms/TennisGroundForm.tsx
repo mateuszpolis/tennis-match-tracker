@@ -1,32 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, MenuItem, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Surface, TennisGroundCreationAttributes } from "../models/TennisGround";
+import {
+  Surface,
+  TennisGroundCreationAttributes,
+} from "../models/TennisGround";
 
 interface TennisGroundFormProps {
   tennisGround?: TennisGroundCreationAttributes;
   onSubmit: (data: TennisGroundCreationAttributes) => Promise<void>;
 }
 
-const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSubmit }) => {
+const TennisGroundForm: React.FC<TennisGroundFormProps> = ({
+  tennisGround,
+  onSubmit,
+}) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<TennisGroundCreationAttributes>({
     defaultValues: {
-      name: tennisGround?.name || "",
-      description: tennisGround?.description || "",
-      constructionDate: tennisGround?.constructionDate
-        ? new Date(tennisGround.constructionDate)
-        : new Date(),
-      country: tennisGround?.country || "",
-      city: tennisGround?.city || "",
-      surface: tennisGround?.surface || Surface.CLAY,
+      name: "",
+      description: "",
+      constructionDate: new Date(),
+      country: "",
+      city: "",
+      surface: Surface.CLAY,
     },
   });
+
+  useEffect(() => {
+    if (tennisGround) {
+      reset({
+        name: tennisGround.name || "",
+        description: tennisGround.description || "",
+        constructionDate: tennisGround.constructionDate
+          ? new Date(tennisGround.constructionDate)
+          : new Date(),
+        country: tennisGround.country || "",
+        city: tennisGround.city || "",
+        surface: tennisGround.surface || Surface.CLAY,
+      });
+    }
+  }, [tennisGround, reset]);
 
   const navigate = useNavigate();
 
@@ -57,7 +77,10 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col space-y-2">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="flex flex-col space-y-2"
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Controller
@@ -105,7 +128,11 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.constructionDate}
-                helperText={errors.constructionDate ? String(errors.constructionDate.message) : ""}
+                helperText={
+                  errors.constructionDate
+                    ? String(errors.constructionDate.message)
+                    : ""
+                }
               />
             )}
           />
@@ -123,7 +150,9 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
                 label="Surface"
                 fullWidth
                 error={!!errors.surface}
-                helperText={errors.surface ? String(errors.surface.message) : ""}
+                helperText={
+                  errors.surface ? String(errors.surface.message) : ""
+                }
               >
                 <MenuItem value={Surface.CLAY}>Clay</MenuItem>
                 <MenuItem value={Surface.GRASS}>Grass</MenuItem>
@@ -144,7 +173,9 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
                 label="Country"
                 fullWidth
                 error={!!errors.country}
-                helperText={errors.country ? String(errors.country.message) : ""}
+                helperText={
+                  errors.country ? String(errors.country.message) : ""
+                }
               />
             )}
           />
@@ -168,12 +199,7 @@ const TennisGroundForm: React.FC<TennisGroundFormProps> = ({ tennisGround, onSub
         </Grid>
 
         <Grid item xs={12}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-          >
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             {tennisGround ? "Update Tennis Ground" : "Create Tennis Ground"}
           </Button>
         </Grid>

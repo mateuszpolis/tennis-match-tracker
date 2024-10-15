@@ -13,6 +13,7 @@ interface TournamentFormProps {
 
 function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
   const {
+    reset,
     handleSubmit,
     control,
     formState: { errors },
@@ -23,6 +24,16 @@ function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
       points: tournament?.points || 0,
     },
   });
+
+  React.useEffect(() => {
+    if (tournament) {
+      reset({
+        name: tournament.name,
+        tennisGroundId: tournament.tennisGroundId,
+        points: tournament.points,
+      });
+    }
+  }, [tournament, reset]);
 
   const navigate = useNavigate();
 
@@ -93,7 +104,11 @@ function TournamentForm({ tournament, onSubmit }: TournamentFormProps) {
         </Grid>
 
         <Grid item xs={12}>
-          <GroundSelect control={control} errors={errors} />
+          <GroundSelect
+            control={control}
+            errors={errors}
+            defaultValue={tournament?.tennisGroundId}
+          />
         </Grid>
 
         <Grid item xs={12}>

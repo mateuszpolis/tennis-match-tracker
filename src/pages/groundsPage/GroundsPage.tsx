@@ -11,7 +11,7 @@ function GroundsPage() {
     <div className="">
       <Routes>
         <Route path="/" element={<GroundsList />} />
-        <Route path="/:id" element={<GroundPage />} />
+        <Route path="/:id/*" element={<GroundPage />} />
         <Route
           path="/add"
           element={
@@ -19,7 +19,7 @@ function GroundsPage() {
               <AddGroundPage />
             </PrivateRoute>
           }
-        />
+        />        
       </Routes>
     </div>
   );
