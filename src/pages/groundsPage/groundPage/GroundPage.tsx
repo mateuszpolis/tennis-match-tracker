@@ -101,7 +101,7 @@ function GroundPage() {
         path="/"
         element={
           <div
-            className="p-8 min-h-screen bg-cover bg-center"
+            className="p-2 md:p-8 min-h-screen bg-cover bg-center"
             style={{
               backgroundImage: `url(${backgroundUrl})`,
             }}

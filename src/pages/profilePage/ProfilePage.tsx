@@ -40,7 +40,7 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-8">
+    <div className="p-2 md:p-8">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-2 text-primary">
           <h2 className="text-2xl font-bold font-display">Hi, {user?.name}</h2>

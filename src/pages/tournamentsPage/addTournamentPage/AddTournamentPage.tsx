@@ -42,7 +42,7 @@ function AddTournamentPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-2 md:p-8">
       <TournamentForm
         onSubmit={submitForm}
         tournament={tournament as TournamentCreationAttributes}

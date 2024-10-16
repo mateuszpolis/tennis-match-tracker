@@ -42,7 +42,7 @@ function AddGroundPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-2 md:p-8">
       <TennisGroundForm
         onSubmit={submitForm}
         tennisGround={ground as TennisGroundCreationAttributes}

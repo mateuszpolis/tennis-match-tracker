@@ -97,7 +97,7 @@ function TournamentPage() {
         path="/*"
         element={
           <div
-            className="p-8 min-h-[85vh]"
+            className="p-2 md:p-8 min-h-[85vh]"
             style={{
               backgroundImage: `url(/tournament_page_background.webp)`,
             }}

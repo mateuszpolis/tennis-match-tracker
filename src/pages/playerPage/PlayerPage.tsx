@@ -130,7 +130,7 @@ function PlayerPage() {
     
   return (
     <div
-      className="p-8 w-full space-y-10"
+      className="p-2 md:p-8 w-full space-y-10"
       style={{
         backgroundImage: `url(/player_page_background.webp)`,
       }}

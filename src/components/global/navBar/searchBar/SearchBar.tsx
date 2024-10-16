@@ -240,7 +240,7 @@ function SearchBar() {
                       className="w-full h-full flex items-center space-x-2"
                     >
                       <SearchOutlined />
-                      <div className="text-sm flex items-center space-x-1 divide-x divide-primary">
+                      <div className="text-sm flex flex-col space-y-1 divide-y md:flex-row items-center md:space-x-1 md:divide-x divide-primary">
                         <span className="ml-2 p-1">
                           {match.firstPlayer.name +
                             " " +

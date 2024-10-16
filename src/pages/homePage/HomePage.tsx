@@ -39,7 +39,7 @@ function HomePage() {
         backgroundImage: `url("home_page_background.webp")`,
       }}
     >
-      <div className="p-8">
+      <div className="p-2 md:p-8">
         <UpcomingTournaments tournaments={tournaments} />
       </div>
       <Information />

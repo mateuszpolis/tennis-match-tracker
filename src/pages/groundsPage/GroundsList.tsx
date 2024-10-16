@@ -30,7 +30,7 @@ function GroundsList() {
   }, []);
 
   return (
-    <div className="p-8">
+    <div className="p-2 md:p-8">
       {isAuthenticated && user?.role === UserRole.Admin && (
         <Button
           size="small"

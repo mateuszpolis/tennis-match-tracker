@@ -11,7 +11,7 @@ function Information() {
         Welcome to Tennis Tournament Manager
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4 p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4 p-2 md:p-8">
         <div className="bg-white p-4 bg-opacity-90 backdrop-blur-lg flex flex-col items-center shadow-lg space-y-4">
           <AccountCircleIcon
             className="text-primary"

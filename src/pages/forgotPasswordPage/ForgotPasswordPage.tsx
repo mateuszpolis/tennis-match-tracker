@@ -10,7 +10,7 @@ function ForgotPasswordPage() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center p-2 md:p-8">
       <h1 className="text-3xl font-bold mb-4">Change password</h1>
       <div className="max-w-4xl w-full space-y-4">
         {submitted ? (

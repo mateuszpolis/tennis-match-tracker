@@ -19,7 +19,7 @@ function MatchInfo({ match, lastMatches }: Props) {
 
   return (
     <div
-      className="p-8 space-y-10"
+      className="p-2 md:p-8 space-y-10"
       style={{
         backgroundImage: `url(/match_page_background.webp)`,
       }}

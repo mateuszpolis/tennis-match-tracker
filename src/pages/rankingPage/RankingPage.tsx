@@ -25,7 +25,7 @@ function RankingPage() {
 
   return (
     <div
-      className="min-h-[80vh] p-8"
+      className="min-h-[80vh] p-2 md:p-8"
       style={{
         backgroundImage: `url("rankings_page_background.webp")`,
       }}

@@ -21,7 +21,7 @@ function LoginPage() {
   const cookieConsent = Cookies.get("zgoda_na_cookies");
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center p-2 md:p-8">
       {cookieConsent !== "true" && (
         <p className="text-gray-500">Accept cookies to use the website. </p>
       )}

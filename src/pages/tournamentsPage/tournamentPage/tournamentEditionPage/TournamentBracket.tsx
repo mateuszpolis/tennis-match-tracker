@@ -83,7 +83,7 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({
                         `}
                       >
                         <div className="w-1/4">{match.firstPlayerScore}</div>
-                        <div className="w-3/4">
+                        <div className="w-3/4 whitespace-nowrap">
                           {match.firstPlayer.name +
                             " " +
                             match.firstPlayer.surname}
@@ -100,7 +100,7 @@ const TournamentBracket: React.FC<TournamentBracketProps> = ({
                         }`}
                       >
                         <div className="w-1/4">{match.secondPlayerScore}</div>
-                        <div className="w-3/4">
+                        <div className="w-3/4 whitespace-nowrap">
                           {match.secondPlayer.name +
                             " " +
                             match.secondPlayer.surname}

@@ -28,7 +28,7 @@ function AddMatchPage({ match }: Props) {
   };
 
   return (
-    <div className="p-8 space-y-2">
+    <div className="p-2 md:p-8 space-y-2">
       <div className="flex items-center space-x-2">
         <h2 className="text-2xl font-bold uppercase text-primary">
           {match?.firstPlayer.name + " " + match?.firstPlayer.surname} vs.{" "}
